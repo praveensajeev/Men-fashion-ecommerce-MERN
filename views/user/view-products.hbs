@@ -1,0 +1,176 @@
+
+    
+
+    <div class="hero">
+      <div class="glide" id="glide_1">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            <li class="glide__slide">
+              <div class="center">
+                <div class="left">
+                  <span class="">New Inspiration 2022</span>
+                  <h1 class="">NEW COLLECTION!</h1>
+                  <p>Trending from men's style collection</p>
+                  <a href="#" class="hero-btn">SHOP NOW</a>
+                </div>
+                <div class="right">
+                    <img class="img1" src="https://images.unsplash.com/photo-1523205565295-f8e91625443b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80" alt="">
+                </div>
+              </div>
+            </li>
+            <li class="glide__slide">
+              <div class="center">
+                <div class="left">
+                  <span>New Inspiration 2022</span>
+                  <h1>THE PERFECT MATCH!</h1>
+                  <p>Trending from men's  style collection</p>
+                  <a href="#" class="hero-btn">SHOP NOW</a>
+                </div>
+                <div class="right">
+                  <img class="img2" src="https://images.unsplash.com/photo-1631415323509-7e870d79cabc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80" alt="">
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </header>
+
+    <!-- Categories Section -->
+    <section class="section category">
+      <div class="cat-center">
+          
+        {{#each category}}
+        <div class="cat">
+            <a href="/category-view/{{this.category}}">
+            <img src="/category-image/{{this._id}}.jpg" alt="" />
+            </a>
+          
+          <div>
+            <p>{{this.category}}</p>
+          </div>
+        </div>
+        {{/each}}
+        {{!-- <div class="cat">
+          <img src="./images/cat2.jpg" alt="" />
+          <div>
+            <p>ACCESSORIES</p>
+          </div>
+        </div>
+        <div class="cat">
+          <img src="./images/cat1.jpg" alt="" />
+          <div>
+            <p>MEN'S WEAR</p>
+          </div>
+        </div> --}}
+      </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="section new-arrival">
+      <div class="title">
+        <h1>PRODUCTS</h1>
+        <p>All the latest picked from designer of our store</p>
+      </div>
+
+      <div class="product-center">
+          {{#each products}}
+        <div class="product-item">
+          <div class="overlay">
+            <a href="/view-image/{{this._id}}" class="product-thumb">
+              <img src="/product-images/{{this._id}}.jpg" alt="" />
+            </a>
+          </div>
+          <div class="product-info">
+            <h3>{{this.Category}}</h3>
+            <a href="productDetails.html">{{this.brand}}</a>
+            <h4><span> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
+          </div>
+          <ul class="icons">
+            <li><a class="add-to-wishlist" href="/add-to-wishlist/{{this._id}}"><i class="bx bx-heart"></i></a></li>
+            <li><a href="/view-image/{{this._id}}"><i class="bx bx-search"></i></a></li>
+            <li><a  onclick="addToCart('{{this._id}}')"><i class="bx bx-cart"></i></a></li>
+          </ul>
+        </div> 
+        {{/each}}                    
+      </div>
+    </section>
+
+
+
+
+ 
+
+    <!-- Contact -->
+    <section class="section contact">
+      <div class="row">
+        <div class="col">
+          <h2>EXCELLENT SUPPORT</h2>
+          <p>We love our customers and they can reach us any time
+          of day we will be at your service 24/7</p>
+          <a href="" class="btn btn-1">Contact</a>
+        </div>
+        <div class="col">
+          <form action="">
+            <div>
+              <input type="email" placeholder="Email Address">
+            <a href="">Send</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+   
+
+
+  <!-- PopUp -->
+  <div class="popup hide-popup">
+    <div class="popup-content">
+      <div class="popup-close">
+        <i class='bx bx-x'></i>
+      </div>
+      <div class="popup-left">
+        <div class="popup-img-container">
+          <img class="popup-img" src="./images/popup.jpg" alt="popup">
+        </div>
+      </div>
+      <div class="popup-right">
+        <div class="right-content">
+          <h1>Get Discount <span>50%</span> Off</h1>
+          <p>Sign up to our newsletter and save 30% for you next purchase. No spam, we promise!
+          </p>
+          <form action="#">
+            <input type="email" placeholder="Enter your email..." class="popup-form">
+            <a href="#">Subscribe</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  
+</script>
+
+
+
+ <script>
+        function addToCart(proId){
+            $.ajax({
+                url:'/add-to-cart/'+proId,
+                method:'get',
+                success:(response)=>{
+                    if(response.status){
+                        let count=$('#cartCount').html()
+                        count=parseInt(count)+1
+                        $("#cartCount").html(count)
+                    }
+                    
+                }
+            })
+        }
+      
+    </script>

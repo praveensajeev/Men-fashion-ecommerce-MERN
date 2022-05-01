@@ -1,0 +1,26 @@
+ <section class="section new-arrivals">
+
+     <div class="product-center">
+          {{#each products}}
+        <div class="product-item">
+          <div class="overlay">
+            <a href="/view-image/{{this._id}}" class="product-thumb">
+              <img src="/product-images/{{this._id}}.jpg" alt="" />
+            </a>
+          </div>
+          <div class="product-info">
+            <h3>{{this.Category}}</h3>
+            <a href="productDetails.html">{{this.brand}}</a>
+            <h4><span> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
+          </div>
+          <ul class="icons">
+            <li><i class="bx bx-heart"></i></li>
+            <li><i class="bx bx-search"></i></li>
+            <li><a  onclick="addToCart('{{this._id}}')"><i class="bx bx-cart"></i></a></li>
+          </ul>
+        </div> 
+        {{/each}}                    
+      </div>
+
+ </section> 
+  

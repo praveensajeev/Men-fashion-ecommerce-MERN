@@ -1,0 +1,54 @@
+
+
+
+<!-- Login -->
+    <div class="container">
+      <div class="login-form">
+        <form action="/login" method="post">
+          <h1>Login</h1>
+          <p>
+            Dont have an account? 
+            <a href="/signup">Sign Up</a>
+          </p>
+
+          {{#if loginErr}}
+              <p class="error text-danger" style="color: red;">invalid email or password</p>
+              {{/if}}
+              {{#if userBlock}}
+              <p class="error text-danger" style="color: red;">your Are Blocked</p>
+              {{/if}}
+
+          <label for="email">Email</label>
+          <input type="email" placeholder="Enter Email" name="email" required />
+
+          <label for="psw">Password</label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            required
+          />
+          <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="/verify-phone">LOGIN WITH OTP </a></p>          
+
+          <label>
+            <input
+              type="checkbox"
+              checked="checked"
+              name="remember"
+              style="margin-bottom: 15px"
+            />
+            Remember me
+          </label>
+
+          <p>
+            By creating an account you agree to our
+            <a href="#">Terms & Privacy</a>.
+          </p>
+
+          <div class="buttons">
+            <button type="button" class="cancelbtn">Cancel</button>
+            <button type="submit" class="signupbtn">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
