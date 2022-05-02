@@ -44,7 +44,7 @@
                 <!-- Quantity -->
                 <div class="d-flex mb-4">
                 <label class="form-label ms-3 mt-3 me-3" for="form1">Quantity:</label>
-                <button class="badge rounded-pill  h-25 pl-2 me-2 mt-3" style="background-color: darkorange; color:black"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button><span class="fs-5 mt-3 me-3" id="{{this.product._id}}">{{this.quantity}}</span><button class="badge rounded-pill  h-25  mt-3" style="background-color: rgb(255, 0, 0); color:black; " onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
+                <button class="badge btn  h-17 pl-2 me-2 mt-3" style="background-color: rgb(0, 17, 255); color:rgb(255, 255, 255)"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button><span class="fs-5 mt-3 me-3" id="{{this.product._id}}">{{this.quantity}}</span><button class="badge btn  h-25  mt-3" style="background-color: rgb(255, 0, 0); color:rgb(255, 255, 255); " onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
                    
                  {{!-- <a href="#" class="fs-2 mb-3 me-2 text-decoration-none text-success" >+</a>
                   <div class="form-outline mt-2">
@@ -124,8 +124,8 @@
               </li>
             </ul>
 
-            <button type="button" class="btn btn-lg btn-block text-light" style="background-color: darkorange;">
-              <a href="/place-order" class="text-decoration-none text-light"> Go to checkout</a>
+            <button type="button" class="btn btn-lg btn-block text-light" style="background-color: rgba(43, 251, 32, 0.779);">
+              <a href="/place-order" class="text-decoration-none text-light">Checkout</a>
             </button>
           </div>
         </div>
