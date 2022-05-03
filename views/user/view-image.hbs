@@ -1,4 +1,4 @@
-<section style="background-color: antiquewhite;">
+<section class="container" style="background-color: rgb(255, 255, 255);">
   <div class="container-fluid pt-5" style="min-height: 100vh;">
     <div class="row">
       <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12 ">
@@ -7,17 +7,21 @@
           <img  class="zoom1" src="/product-images/{{product._id}}.jpg">
 
         </div>
-        {{!-- ==========================for image zoom================= --}}
-        {{!-- <div class="t">
-          <div class="mn">
-            <img src="/product-images/{{product._id}}.jpg">
-          </div>
-          <div class="view">
-            <img src="/product-images/{{product._id}}.jpg">
-          </div>
-          <div class="cs"></div>
-        </div> --}}
-        {{!-- ==========================for image zoom================= --}}
+       <div class="flex" style="display: flex;">
+
+         <div class="card mt-3" style="width: 8rem; margin-left:35px">
+        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        </div>
+         <div class="card mt-3" style="width: 8rem; margin-left:35px">
+        <img src="/product-images1/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        </div>
+         <div class="card mt-3" style="width: 8rem;margin-left:35px">
+        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        </div>
+
+       </div>
+        
+
 
       </div>
       <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12">
@@ -74,46 +78,50 @@
  
   
 
-<h1 class="related">RELATED PRODUCTS</h1>
+<h1 class="related  " style="padding-top: 200px;">RELATED PRODUCTS</h1>
 
-<div class="row p-5" style="min-height: 100vh; " >
-     {{#each relatedproduct}}
-    <div class="col-md-4 col-sm-6 col-lg-3">
-        <div class="product-grid">
-            <div class="product-image">
-                <a href="/view-image/{{this._id}}" class="image">
-                    <img class="img-1" src="/product-images/{{this._id}}.jpg">
-                    <img class="img-2" src="/product-images1/{{this._id}}.jpg">
-                </a>
-                <ul class="product-links">
-                   
-                    <li><a href="#"><i class="fa-solid fa-x"></i></a></li>
-                    <li><a  ><i > <button onclick="addToCart('{{this._id}}')" class="fa fa-shopping-cart "></button></i></a></li>
-                </ul>
-                
-            </div>
-            <div class="product-content">
-                <ul class="rating">
-                    <li class="fas fa-star"></li>
-                    <li class="fas fa-star"></li>
-                    <li class="fas fa-star"></li>
-                    <li class="fas fa-star"></li>
-                    <li class="fas fa-star disable"></li>
-                    <li class="disable">(1 reviews)</li>
-                </ul>
-                
-              
-                <h3 class="title"><a href="#">{{this.brand}}</a></h3>
-                <div class="price">₹{{this.offerPrice}} <span> ₹{{this.orginalPrice}}</span></div>
-                
-            </div>
-        </div>
-    </div>
-    {{/each}}
-</div>
-</div>
- </div>
-</section>
+
+
+
+<section class="section new-arrival">
+     
+      <div class="product-center">
+          {{#each relatedproduct}}
+        <div class="product-item">
+          <div class="overlay">
+            <a href="/view-image/{{this._id}}" class="product-thumb">
+              <img src="/product-images/{{this._id}}.jpg" alt="" />
+            </a>
+          </div>
+          <div class="product-info">
+            <h3>{{this.Category}}</h3>
+            <a href="/add-to-wishlist/{{this._id}}">{{this.brand}}</a>
+            <h4><span class="text-danger text-decoration-line-through"> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
+          </div>
+          <ul class="icons">
+            <li><a class="add-to-wishlist" href="/add-to-wishlist/{{this._id}}"><i class="bx bx-heart"></i></a></li>
+            <li><a href="/view-image/{{this._id}}"><i class="bx bx-search"></i></a></li>
+            <li><a  onclick="addToCart('{{this._id}}')"><i class="bx bx-cart"></i></a></li>
+          </ul>
+        </div> 
+        {{/each}}                    
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
         function addToCart(proId){
             $.ajax({
@@ -134,7 +142,15 @@
 
 
 
+<script>
+  $(document).ready(function(){
+$(".zoom").hover(function(){
+    $(".zoom1").attr('src',$(this).attr('src'
+    ))
 
+})
+})
+</script>
 
 
 
@@ -143,12 +159,16 @@
 
 
 <script>
+
+
+
+
   var options = {
     width: 400,
     height: 500,
     zoomWidth: 400,
     offset: { vertical: 0, horizontal: 10 },
-    scale: .7,
+    scale: .6,
 
   }
   new ImageZoom(document.getElementById("img-container"), options)
@@ -163,3 +183,14 @@
 
 
 </script>
+
+
+
+<style>
+  #img-container{
+    z-index: 2;
+  }
+
+</style>
+
+

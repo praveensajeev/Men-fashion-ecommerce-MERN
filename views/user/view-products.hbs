@@ -14,7 +14,7 @@
                   <a href="#" class="hero-btn">SHOP NOW</a>
                 </div>
                 <div class="right  " style="margin-left: 150px;">
-                    <img class="img1" src="https://img.freepik.com/free-photo/excited-happy-man-tshirt-showing-peace-signs-vsign-kawaii-eyes-looking-joyful-smiling-standing-white-background_176420-53055.jpg?t=st=1651463545~exp=1651464145~hmac=ee3ceb256eabe93dc6bd2d9d3b1d6a56bce7e80a8f5bc8b7256b02b4d2eb4955&w=1060" alt="">
+                    <img class="img1" src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bWVuJTIwZmFzaGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="">
                 </div>
               </div>
             </li>
@@ -26,7 +26,7 @@
                   <p>Trending from men's  style collection</p>
                   <a href="#" class="hero-btn">SHOP NOW</a>
                 </div>
-                <div class="right">
+                <div class="right" style="margin-left: 150px;">
                   <img class="img2" src="https://images.unsplash.com/photo-1631415323509-7e870d79cabc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80" alt="">
                 </div>
               </div>
@@ -52,22 +52,10 @@
           </div>
         </div>
         {{/each}}
-        {{!-- <div class="cat">
-          <img src="./images/cat2.jpg" alt="" />
-          <div>
-            <p>ACCESSORIES</p>
-          </div>
-        </div>
-        <div class="cat">
-          <img src="./images/cat1.jpg" alt="" />
-          <div>
-            <p>MEN'S WEAR</p>
-          </div>
-        </div> --}}
       </div>
     </section>
 
-    <!-- New Arrivals -->
+    <!-- Products -->
     <section class="section new-arrival">
       <div class="title">
         <h1>PRODUCTS</h1>
@@ -85,7 +73,7 @@
           <div class="product-info">
             <h3>{{this.Category}}</h3>
             <a href="productDetails.html">{{this.brand}}</a>
-            <h4><span> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
+            <h4><span class="text-danger text-decoration-line-through"> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
           </div>
           <ul class="icons">
             <li><a class="add-to-wishlist" href="/add-to-wishlist/{{this._id}}"><i class="bx bx-heart"></i></a></li>
@@ -103,30 +91,13 @@
  
 
     <!-- Contact -->
-    <section class="section contact">
-      <div class="row">
-        <div class="col">
-          <h2>EXCELLENT SUPPORT</h2>
-          <p>We love our customers and they can reach us any time
-          of day we will be at your service 24/7</p>
-          <a href="" class="btn btn-1">Contact</a>
-        </div>
-        <div class="col">
-          <form action="">
-            <div>
-              <input type="email" placeholder="Email Address">
-            <a href="">Send</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
+   
 
     <!-- Footer -->
    
 
 
-  <!-- PopUp -->
+  {{!-- <!-- PopUp -->
   <div class="popup hide-popup">
     <div class="popup-content">
       <div class="popup-close">
@@ -149,7 +120,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
 <script>
   

@@ -5,7 +5,7 @@
 :root {
   --white: #fff;
   --black: #222;
-  --green: #6cbe02;
+  --green: #2C3E66;
   --grey1: #f0f0f0;
   --grey2: #e9d7d3;
 }
@@ -42,6 +42,8 @@ li {
   list-style: none;
 }
 
+
+
 .container {
   max-width: 114rem;
   margin: 0 auto;
@@ -51,6 +53,11 @@ li {
 .d-flex {
   display: flex;
   align-items: center;
+ 
+}
+
+#cart-count{
+  background-color: #F884C1;
 }
 
 /* 

@@ -14,7 +14,7 @@
       </div>
       <div class="navigation">
         <div class="nav-center container d-flex">
-        <a href="/" class="logo"><h1>Dans</h1></a>
+        <a href="/" class="logo"><h1>BE ARC</h1></a>
 
           <ul class="nav-list d-flex">
             <li class="nav-item">
@@ -61,11 +61,11 @@
             </div>
             <div class="icon">
               <a href="/wishlist"><i class="bx bx-heart"></i></a>
-              <span class="d-flex">0</span>
+              <span class="d-flex" id="cart-count">0</span>
             </div>
             <a href="/cart" class="icon">
               <i class="bx bx-cart"></i>
-              <span class="d-flex" id="cart-count">{{cartCount}}</span>
+              <span class="d-flex" id="cart-count" >{{cartCount}}</span>
             </a>
                <a class="icon" href="/myprofile">
            {{#if user}}
