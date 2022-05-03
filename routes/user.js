@@ -1,6 +1,7 @@
 
 var express = require("express");
 const { Db } = require("mongodb");
+const { resolve } = require("promise");
 var router = express.Router();
 const productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
@@ -280,7 +281,7 @@ router.get('/category-view/:id',(req,res)=>{
 })
 
 // quantity
-router.post('/change-product-quantity',(req,res,next)=>{
+router.post('/change-product-quantity ',(req,res,next)=>{
   console.log(req.body);
   
   userHelpers.changeProductQuantity(req.body).then(async(response)=>{
@@ -310,10 +311,40 @@ router.post('/place-order',async(req,res)=>{
   let products=await userHelpers.getCartProductList(req.body.userId)
   let totalPrice=await userHelpers.getTotalAmount(req.body.userId)
 
-userHelpers.placeOrder(req.body,products,totalPrice).then((response)=>{
-  res.json({status:true})
+userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
+  console.log(orderId);
+  if(req.body['payment-method']==='COD'){
 
+    res.json  ({codSuccess:true})
+
+  }else {
+
+    userHelpers.generateRazorpay(orderId,totalPrice).then((response)=>{
+      res.json(response)
+
+    })
+
+  }
+  
+
+});
+
+
+router.post('/verify-payment',(req,res)=>{
+  console.log(req.body);
+  userHelpers.verifyPayment(req.body).then(()=>{
+    userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      console.log("payment successfull");
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log(err);
+    res.json({status:false,errMsg:''})
+  })
 })
+
+
+
 
 router.get('/order-success',(req,res)=>{
   res.render('user/order-success',{user:req.session.user})
@@ -332,9 +363,9 @@ res.render('user/orders',{user:req.session.user,orders})
 // ------------view-orders from order--------
 router.get('/view-order-products/:id',async(req,res)=>{
   var imgId = req.params.id;
-  let product = await userHelpers.imageDetails(req.params.id);
-  // let product=await userHelpers.getOrderProducts(req.params.id)
-   res.render('user/view-order-products',{product})
+  // let product = await userHelpers.imageDetails(req.params.id);
+  let products=await userHelpers.getOrderProducts(req.params.id)
+   res.render('user/view-order-products',{products,user:req.session.user})
   // res.render("user/view-image",{product});
 })
 
