@@ -178,4 +178,11 @@ router.get("/delete-users/:id", (req, res) => {
   });
 });
 
+
+router.get('/view-orders',(req,res)=>{
+  productHelpers.getAllOrders().then((orders)=>{
+    res.render('admin/view-orders',{orders,admin:true,user})
+  })
+})
+
 module.exports = router;

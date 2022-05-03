@@ -2,22 +2,23 @@
   <div class="container mt-5">
 
     <table class="table table-striped">
-      <thead>
+      <thead >
         <tr>
-          <th scope="col">No</th>
-          <th scope="col">Brand</th>
-          <th scope="col">Category</th>
-          <th scope="col">Description</th>
-          <th scope="col">OP</th>
-          <th scope="col">OfrP</th>
-          <th scope="col">Ofr%</th>
-          <th scope="col">Images</th>
+          <th scope="col" style="color: black;">No</th>
+          <th scope="col" style="color: black;">Brand</th>
+          <th scope="col" style="color: black;">Category</th>
+          <th scope="col" style="color: black;">Description</th>
+          <th scope="col" style="color: black;">Original price</th>
+          <th scope="col" style="color: black;">Offer price</th>
+          <th scope="col" style="color: black;">Offer%</th>
+          <th scope="col" style="color: black;">Images</th>
+          <th scope="col" style="color: black;" >Action</th>
         </tr>
       </thead>
       <tbody>
         {{#each products}}
           <tr>
-            <th scope="row">{{@index}}</th>
+            <th scope="row" style="color: black;">{{@index}}</th>
             <td>
               {{this.brand}}
             </td>
