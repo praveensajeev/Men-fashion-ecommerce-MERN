@@ -18,7 +18,16 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
-  hbs.engine({
+  hbs.engine(
+    {
+      helpers: {
+
+        inc: function (value, options) {
+      
+            return parseInt(value) + 1;
+      
+        }
+      },
     extname: "hbs",
     defaultLayout: "layout",
     layoutsDir: __dirname + "/views/layout/",

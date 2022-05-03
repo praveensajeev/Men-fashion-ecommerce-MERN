@@ -138,7 +138,14 @@ router.get("/wishlist", verifylogin, async (req, res) => {
   // let totalValue=await userHelpers.getTotalAmount(req.session.user._id)
 
  console.log(products);
+ if(req.body){
+
   res.render("user/wishlist",{products,'user':req.session.user});
+
+ }else{
+   res.render('user/empty-wishlist')
+ }
+ 
 });
 
 router.get('/add-to-wishlist/:id',verifylogin,(req,res)=>{
@@ -395,6 +402,236 @@ router.get("/add-details",verifylogin,async(req,res)=>{
   
 })
 
+
+//my profile//...............................................................//my profile...................................
+
+
+router.post("/profilepic",verifylogin,async(req,res)=>{
+  
+  id=await req.session.user._id;
+    
+    
+    let image = req.files.image;
+  image.mv("./public/profile-image/" + id + ".jpg")
+      
+        res.redirect("/myprofile");
+     
+   
+  
+  })
+  
+  // ========================================changepassword====================================
+  
+  
+  router.post("/changepassword",verifylogin,(req,res)=>{
+  
+  
+    userHelpers.changePassword(req.body).then((response)=>{
+  
+  console.log("Password Succesfully changed");
+  
+  
+    })
+    if(response.status){
+     
+            res.redirect("/myprofile")
+            
+          }else{
+            alert("Password not changed")
+          }
+   
+  
+  
+  })
+  
+  // =====================================changeEmail======================
+  
+  router.post("/changeEmail",verifylogin,(req,res)=>{
+    userHelpers.changeEmail(req.body).then(async()=>{
+      let profile=await userHelpers.getMydetals(req.session.user?._id)
+    
+    // let profile=await userHelpers.getMydetals(req.session.user?._id)
+    
+    res.render("user/myprofile",{profile,user:req.session.user})
+    // res.render("user/myprofile")
+    })
+  
+  })
+  
+  
+  router.post('/verify-payment',(req,res)=>{
+    console.log(req.body);
+    userHelpers.verifyPayment(req.body).then(()=>{
+      userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+        console.log("payment successfull");
+        res.json({status:true})
+      })
+    }).catch((err)=>{
+      console.log(err);
+      res.json({status:false,errMsg:''})
+    })
+  })
+  // ========================changephone=========================
+  
+  router.post("/changePhone",verifylogin,(req,res)=>{
+    userSignup=req.body;
+    console.log(userSignup);
+    phone=req.body.phone;
+    console.log(phone);
+    client.verify
+      .services(serviceSsid)
+      .verifications.create({ to: `+91${phone}`, channel: "sms" })
+      .then((resp) => {
+        console.log(resp);
+        res.render("user/phoneOtp", { phone });
+      });
+   
+      
+      
+      
+   
+    // res.render("user/myprofile")
+    
+  
+  })
+  
+  // ======================================phoneOtp==================
+
+  router.post("/profilepic",verifylogin,async(req,res)=>{
+  
+    id=await req.session.user._id;
+      
+      
+      let image = req.files.image;
+    image.mv("./public/profile-image/" + id + ".jpg")
+        
+          res.redirect("/myprofile");
+       
+     
+    
+    })
+    
+    // ========================================changepassword====================================
+    
+    
+    router.post("/changepassword",verifylogin,(req,res)=>{
+    
+    
+      userHelpers.changePassword(req.body).then((response)=>{
+    
+    console.log("Password Succesfully changed");
+    
+    
+      })
+      if(response.status){
+       
+              res.redirect("/myprofile")
+              
+            }else{
+              alert("Password not changed")
+            }
+     
+    
+    
+    })
+    
+    // =====================================changeEmail======================
+    
+    router.post("/changeEmail",verifylogin,(req,res)=>{
+      userHelpers.changeEmail(req.body).then(async()=>{
+        let profile=await userHelpers.getMydetals(req.session.user?._id)
+      
+      // let profile=await userHelpers.getMydetals(req.session.user?._id)
+      
+      res.render("user/myprofile",{profile,user:req.session.user})
+      // res.render("user/myprofile")
+      })
+    
+    })
+    
+    
+    router.post('/verify-payment',(req,res)=>{
+      console.log(req.body);
+      userHelpers.verifyPayment(req.body).then(()=>{
+        userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+          console.log("payment successfull");
+          res.json({status:true})
+        })
+      }).catch((err)=>{
+        console.log(err);
+        res.json({status:false,errMsg:''})
+      })
+    })
+    // ========================changephone=========================
+    
+    router.post("/changePhone",verifylogin,(req,res)=>{
+      userSignup=req.body;
+      console.log(userSignup);
+      phone=req.body.phone;
+      console.log(phone);
+      client.verify
+        .services(serviceSsid)
+        .verifications.create({ to: `+91${phone}`, channel: "sms" })
+        .then((resp) => {
+          console.log(resp);
+          res.render("user/phoneOtp", { phone });
+        });
+     
+        
+        
+        
+     
+      // res.render("user/myprofile")
+      
+    
+    })
+    
+    // ======================================phoneOtp==================
+    router.get('/phoneOtp',(req,res)=>{
+      console.log(req.body+"arunms");
+      res.header(
+        "Cache-Control",
+        "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+      );
+      let phoneNumber=req.query.phonenumber;
+      let otpNumber=req.query.otpnumber;
+      console.log(phoneNumber);
+      console.log(otpNumber);
+    
+      client.verify
+            .services(serviceSsid)
+            .verificationChecks.create({
+            to: "+91"+phoneNumber,
+            code:otpNumber,
+          }).then((resp)=>{
+            console.log("tttt",resp);
+            if(resp.valid){
+              userHelpers.changePhone(userSignup).then((response)=>{
+                console.log("haaa",response);
+                if(response){
+                  console.log("acknoledgedtrue");
+                    let valid=true;
+                    signupSuccess="You are successfully signed up"
+                    res.send(valid)
+              }else{
+                  let valid=false;
+                  res.send(valid);
+              }
+              })
+            }
+          })
+      
+    })
+
+
+//cancel-order ----------------------------------
+
+router.get('/cancel-order/:id',verifylogin,(req,res)=>{
+  let orderId=req.params.id
+  userHelpers.cancelOrder(orderId).then((response)=>{
+     res.redirect('/orders')
+  })
+})
 
 
 

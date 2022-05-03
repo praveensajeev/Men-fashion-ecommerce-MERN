@@ -638,6 +638,88 @@ module.exports = {
        console.log("oo",orderItems);
         resolve(orderItems)
     })
+},
+changePhone:(userData)=>{
+  return new promise(async(resolve,reject)=>{
+    let user = await db
+    .get()
+    .collection(collection.USER_COLLECTION)
+    .findOne({ _id:objectId(userData.userId)});
+
+    if(user){
+      bcrypt.compare(userData.password, user.password).then(async(status) => {
+        if(status){
+         
+          console.log("password matched for PhoneNumber Change");
+          db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userData.userId)},{$set:{
+            phoneNumber:userData.newphone,
+          
+          }}).then((response)=>{
+            if(response){
+              resolve({status:true})
+              
+            }
+
+          })
+
+        }
+      })
+
+
+     }   
+
+
+
+  })
+},
+changeEmail:(userData)=>{
+  return new promise(async(resolve,reject)=>{
+    let user = await db
+    .get()
+    .collection(collection.USER_COLLECTION)
+    .findOne({ _id:objectId(userData.userId)});
+
+    if(user){
+      bcrypt.compare(userData.password, user.password).then(async(status) => {
+        if(status){
+         
+          console.log("password matched for emailchange");
+          db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userData.userId)},{$set:{
+            email:userData.email,
+          
+          }}).then((response)=>{
+            if(response){
+              resolve({status:true})
+              
+            }
+
+          })
+
+        }
+      })
+
+
+     }   
+
+
+
+  })
+},
+
+//cancel order
+
+
+cancelOrder: (orderId) => {
+  return new Promise((resolve, reject) => {
+
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
+          $set: {
+              status: "cancelled"
+          }
+      }).then((response) => {
+          resolve(response)
+      })
+  })
 }
 
 
