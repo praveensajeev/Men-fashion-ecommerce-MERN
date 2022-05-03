@@ -181,8 +181,32 @@ router.get("/delete-users/:id", (req, res) => {
 
 router.get('/view-orders',(req,res)=>{
   productHelpers.getAllOrders().then((orders)=>{
-    res.render('admin/view-orders',{orders,admin:true,user})
+    res.render('admin/view-orders',{orders,admin:true})
   })
+})
+
+
+
+
+router.post('/statusUpdate',(req,res)=>{
+  let status=req.body.status
+  let orderId=req.body.orderId
+  console.log("hiii",status);
+  console.log("hloo",orderId);
+  
+  productHelpers.statusUpdate(status,orderId).then((response)=>{
+   res.json(true)
+  })
+})
+
+
+
+router.get('/orderProductDetails/:id',async(req,res)=>{
+ 
+  let products= await productHelpers.getOrderProductDetails(req.params.id)
+  // let adm=req.session.adminLoggedIn
+ 
+  res.render('admin/orderProductDetails',{products,admin:true})
 })
 
 module.exports = router;

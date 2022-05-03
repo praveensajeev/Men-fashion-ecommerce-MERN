@@ -332,6 +332,8 @@ module.exports = {
       let status = order["payment-method"] === "COD" ? "placed" : "pending";
       let orderObj = {
         deliveryDetails: {
+          name:order.name,
+          houseNo:order.house,
           mobile: order.phoneNumber,
           address: order.address,
           pincode: order.pincode,
@@ -406,8 +408,10 @@ module.exports = {
           },
           {
             $project: {
+
               item: 1,
               quantity: 1,
+              
               product: { $arrayElemAt: ["$product", 0] },
             },
           },
@@ -417,6 +421,11 @@ module.exports = {
 
       resolve(cartItems);
     });
+
+
+      
+
+
   },
   addToWishlist: (proId, userId) => {
     return new Promise(async (resolve, reject) => {
@@ -590,7 +599,47 @@ module.exports = {
         resolve()
       })
     })
-  }
+  },
+
+
+
+
+  getOrderProductDetails:(orderId)=>{
+    return new Promise(async(resolve,reject)=>{
+        let orderItems= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+            {
+                $match:{_id:objectId(orderId)}
+            },
+            {
+                $unwind:'$products'
+            },
+            {
+                $project:{
+                    item:'$products.item',
+                    quantity:'$products.quantity'
+                }
+            },
+            {
+                $lookup:{
+                    from:collection.PRODUCT_COLLECTION,
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                }
+            },
+            {
+                $project:{
+                    item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+                }
+            }
+           
+        ]).toArray()
+       
+       console.log("oo",orderItems);
+        resolve(orderItems)
+    })
+}
+
 
 };
   

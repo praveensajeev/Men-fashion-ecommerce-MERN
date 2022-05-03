@@ -1,7 +1,6 @@
 <section class="container" style="background-color: rgb(255, 255, 255);">
   <div class="container-fluid pt-5" style="min-height: 100vh;">
     <div class="row">
-      {{#each products}}
       <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12 ">
         <div class="zoom mx-auto" id="img-container">
 
@@ -11,13 +10,13 @@
        <div class="flex" style="display: flex;">
 
          <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
         </div>
          <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images1/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product-images1/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
         </div>
          <div class="card mt-3" style="width: 8rem;margin-left:35px">
-        <img src="/product-images/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
         </div>
 
        </div>
@@ -27,9 +26,9 @@
       </div>
       <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12">
 
-        <span class="fs-2 ">{{this.product.description}}</span>
-        <p> <span class="text-success fs-3">₹{{this.product.offerPrice}}</span><span
-            class="text-danger text-decoration-line-through fs-5 ps-3">₹{{this.product.orginalPrice}}</span> <span
+        <span class="fs-2 ">{{product.description}}</span>
+        <p> <span class="text-success fs-3">₹{{product.offerPrice}}</span><span
+            class="text-danger text-decoration-line-through fs-5 ps-3">₹{{product.orginalPrice}}</span> <span
             class="fs-3">{{product.offerpercentage}}%off</span></p>
         <p><span class="fs-5"> Available offers </span><br>
 
@@ -69,88 +68,5 @@
 
       </div>
 
-      {{/each}}
-
     </div>
-
-  </div>
-</section>
-
-
-
-
-
-
-<script>
-        function addToCart(proId){
-            $.ajax({
-                url:'/add-to-cart/'+proId,
-                method:'get',
-                success:(response)=>{
-                    if(response.status){
-                        let count=$('#cartCount').html()
-                        count=parseInt(count)+1
-                        $("#cartCount").html(count)
-                    }
-                    
-                }
-            })
-        }
-    </script>
-
-
-
-
-<script>
-  $(document).ready(function(){
-$(".zoom").hover(function(){
-    $(".zoom1").attr('src',$(this).attr('src'
-    ))
-
-})
-})
-</script>
-
-
-
-
-
-
-
-<script>
-
-
-
-
-  var options = {
-    width: 400,
-    height: 500,
-    zoomWidth: 400,
-    offset: { vertical: 0, horizontal: 10 },
-    scale: .6,
-
-  }
-  new ImageZoom(document.getElementById("img-container"), options)
-
-
-  function change(event) {
-    document.getElementById('img-container') = URL.createObjectURL(event.target.files[0])
-  }
-  function viewImage1(event) {
-    document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
-  }
-
-
-</script>
-
-
-
-<style>
-  #img-container{
-    z-index: 2;
-  }
-
-</style>
-
-
 

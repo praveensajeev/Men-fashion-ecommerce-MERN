@@ -364,7 +364,8 @@ res.render('user/orders',{user:req.session.user,orders})
 router.get('/view-order-products/:id',async(req,res)=>{
   var imgId = req.params.id;
   // let product = await userHelpers.imageDetails(req.params.id);
-  let products=await userHelpers.getOrderProducts(req.params.id)
+  let products=await userHelpers.getOrderProductDetails(req.params.id)
+  console.log(products);
    res.render('user/view-order-products',{products,user:req.session.user})
   // res.render("user/view-image",{product});
 })
