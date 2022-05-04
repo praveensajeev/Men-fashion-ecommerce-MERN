@@ -1,15 +1,18 @@
 
 var express = require("express");
-const { Db } = require("mongodb");
-const { resolve } = require("promise");
 var router = express.Router();
 const productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 
-const serviceSsid = "VA853a986f6220d20e98db1060e8fd5d22";
-const AccountSsid = "ACa9fb707809f831f236ac61507083c641";
-const token = "130e8f058126d5c7470bfcaa39a55211";
+const serviceSsid = "VA8b49d4571307fadf6fad7217082d60f8";
+const AccountSsid = "AC060b9d74db69e59d9ed32346b877fbc9";
+const token = "ee5bdeec32ad633d283c73ded66dca54";
+
+// const serviceSsid = "	VA57b99e042133ed4144f37b3003e009b8";
+// const AccountSsid = "AC8d35f9dcfb5c3192cf04162426e70fa1";
+// const token = "351a705f744d9bda78dd3623b7796eb6";
 const client = require("twilio")(AccountSsid, token);
+// const client = require("twilio")(AccountSsid, token);
 
 const verifylogin = (req, res, next) => {
   if (req.session.user) {
@@ -61,26 +64,105 @@ router.post("/signup", (req, res) => {
   let email = req.body.email;
   let phone = req.body.phoneNumber;
  
+
+
+
+  // userHelpers.checkPhone(phone).then((number) => {
+  //   // console.log(number);
+  //   // console.log(number.userBlock)
+
+  //   if (number) {
+  //     if (number.userBlock) {
+  //       res.render("user/verify-phone", { userBlock: true });
+  //     } else {
+  //       if (number) {
+  //         let phone = number.phoneNumber;
+  //         console.log(phone);
+  //         client.verify
+  //           .services(serviceSsid)
+  //           .verifications.create({ to: `+91${phone}`, channel: "sms" })
+  //           .then((resp) => {
+  //             console.log(resp);
+  //           });
+  //         res.render("user/verify-otp", { phone });
+  //       } else {
+  //         res.render("user/verify-phone", { number: true });
+  //         number = false;
+  //       }
+  //     }
+  //   } else {
+  //     res.render("user/verify-phone", { number: true });
+  //     number = false;
+  //   }
+  // });
+
+
   
-  console.log(email);
-  console.log(phone);
   userHelpers.emailCheck(email, phone).then((resolve) => {
     if (resolve) {
       if (resolve.phoneNumber == phone) {
-        res.render("user/signup", { phone: true, phoneAll: "phone invaid" });
+        res.render("user/signup", { phone: true, phoneAll: "Phone invalid" });
         phoneAll = false;
       } else {
-        res.render("user/signup", { email: true });
+        res.render("user/signup", { email: true,email:"Email already exist" });
         email = false;
       }
     } else {
-      userHelpers.doSignup(req.body).then((response) => {
-        console.log(response);
-        res.redirect("/login");
-      });
+      userSignup=req.body;
+      console.log(phone);
+      client.verify
+        .services(serviceSsid)
+        .verifications.create({ to: `+91${phone}`, channel: "sms" })
+        .then((resp) => {
+          console.log(resp);
+          res.render("user/signUpotp", { phone });
+        });
+     
+    
     }
   });
 });
+
+
+router.get('/signupOtp',(req,res)=>{
+  console.log(req.body+"ffffffffffffff");
+  res.header(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
+  let phoneNumber=req.query.phonenumber;
+  let otpNumber=req.query.otpnumber;
+  console.log(phoneNumber);
+  console.log(otpNumber);
+
+  client.verify
+        .services(serviceSsid)
+        .verificationChecks.create({
+        to: "+91"+phoneNumber,
+        code:otpNumber,
+      }).then((resp)=>{
+        console.log("tttt",resp);
+        if(resp.valid){
+          userHelpers.doSignup(userSignup).then((response)=>{
+            console.log("haaa",response);
+            if(response.acknowledged){
+                let valid=true;
+                signupSuccess="You are successfully signed up"
+                res.send(valid)
+          }else{
+              let valid=false;
+              res.send(valid);
+          }
+          })
+        }
+      })
+  
+})
+
+
+
+
+
 
 router.post("/login", (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
@@ -393,7 +475,7 @@ router.get("/myprofile",async(req,res)=>{
 
 });
 
-// ==================================add details======================
+// .....................................add details.............................
 
 router.get("/add-details",verifylogin,async(req,res)=>{
   let details = await userHelpers.addToProfile(req.session.user._id)
@@ -420,25 +502,30 @@ router.post("/profilepic",verifylogin,async(req,res)=>{
   
   })
   
-  // ========================================changepassword====================================
+  // .....................................changepassword.........................................................
   
   
   router.post("/changepassword",verifylogin,(req,res)=>{
   
   
     userHelpers.changePassword(req.body).then((response)=>{
-  
-  console.log("Password Succesfully changed");
+
+      res.redirect("/myprofile")
+    
+
+       console.log("Password Succesfully changed");
   
   
     })
-    if(response.status){
+    // if(response){
+
+    //   console.log("helooo",response);
      
-            res.redirect("/myprofile")
-            
-          }else{
-            alert("Password not changed")
-          }
+           
+    
+    //       }else{
+    //         alert("Password not changed")
+    //       }
    
   
   

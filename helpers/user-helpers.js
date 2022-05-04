@@ -322,8 +322,17 @@ module.exports = {
           },
         ])
         .toArray();
+      if(total[0] ){
 
-      resolve(total[0] .total);
+        console.log("total",total);
+
+        resolve(total[0] .total);
+
+      }else{
+        console.log("praaaaaaaaaaaaaa");
+        resolve()
+      }
+      
     });
   },
   placeOrder: (order, products, total) => {
@@ -720,6 +729,41 @@ cancelOrder: (orderId) => {
           resolve(response)
       })
   })
+},
+
+changePassword:(userData)=>{
+  console.log(userData);
+  return new promise(async(resolve,reject)=>{
+    let user = await db
+          .get()
+          .collection(collection.USER_COLLECTION)
+          .findOne({ _id:objectId(userData.userId)});
+
+
+       if(user){
+        bcrypt.compare(userData.password, user.password).then(async(status) => {
+          if(status){
+            userData.newPassword = await bcrypt.hash(userData.newPassword,10)
+            console.log("password matched");
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userData.userId)},{$set:{
+              password:userData.newPassword,
+            
+            }}).then((response)=>{
+              if(response){
+                resolve({status:true})
+              }
+
+            })
+
+          }
+        })
+
+
+       }   
+
+  })
+
+
 }
 
 
