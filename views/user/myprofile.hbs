@@ -3,7 +3,7 @@
 
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center">
                         <img src="/profile-image/{{profile._id}}.jpg" alt="avatar" class="rounded-circle img-fluid"
@@ -44,9 +44,9 @@
                                 </div>
                             </div>
 
-                            {{!-- ===========================================password================= --}}
+                         
 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal"
                                 data-bs-target="#myModal1">Change Password</button>
                             <div class="modal" id="myModal1">
                                 <div class="modal-dialog">
@@ -80,19 +80,13 @@
                                 </div>
                             </div>
 
-                            {{!-- ======================================password================= --}}
-
-
-
-
-
 
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div class="col-lg-8" style="height: 50vh;">
+            <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
@@ -248,95 +242,13 @@
         </div>
 
 
-        {{!-- <div class="row">
+        <div class="row">
 
 
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
                 integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
 
-            <div class="col-md-12 pl-5 ">
-                <div class="row ">
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="card l-bg-cherry">
-                            <a href="/cart">
-
-
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
-                                    <div class="mb-4">
-                                        <h5 class="card-title mb-0" style="color: white;">Your Cart</h5>
-                                    </div>
-
-                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
-                                        <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 25%;"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="card l-bg-blue-dark">
-                            <a href="/wishlist">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-heart"></i></div>
-                                    <div class="mb-4">
-                                        <h5 class="card-title mb-0" style="color: white;">Your Wishilist</h5>
-                                    </div>
-
-                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
-                                        <div class="progress-bar l-bg-green" role="progressbar" data-width="25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 25%;"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="card l-bg-green-dark">
-                            <a href="/orders">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
-                                    <div class="mb-4">
-                                        <h5 class="card-title mb-0" style="color: white; text-decoration: none;">Your
-                                            Orders</h5>
-                                    </div>
-
-                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
-                                        <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 25%;"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="card l-bg-orange-dark">
-                            <a href="">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                                    <div class="mb-4">
-                                        <h5 class="card-title mb-0" style=" color: white;text-decoration: none;">Your
-                                            Adresses</h5>
-                                    </div>
-
-                                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
-                                        <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 25%;"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> --}}
 
 
 
@@ -345,40 +257,7 @@
 
 
 
-
-
-        {{!-- <div class="container mt-5">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Contact
-                Us</button>
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add profile</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/profilepic" method="post" enctype="multipart/form-data">
-
-                                <div class="mt-3">
-
-                                    <input type="file" name="image" placeholder="IMAGE1" class="form-control"
-                                        id="imgView" required>
-                                </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                            <button type="submit" class="btn btn-danger">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        {{!--
-</section> --}}
+</section>
 
 
 <style>
@@ -389,7 +268,7 @@
     }
 
     .modal-header {
-        background: #0a504a;
+        background: #F7941E;
         color: #fff;
     }
 

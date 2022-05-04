@@ -1,40 +1,26 @@
-<section class="vh-100 ">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class=" text-black" style="border-radius: 1rem; background-color:hsl(0, 19%, 92%) ">
-          <div class="card-body p-5 text-center">
-              
-         
-              <form action="/signup" method="post" enctype="multipart/form-data">
-            <div class="mb-md-5 mt-md-4 pb-5">
-             
-            
-              <h2 class="fw-bold mb-2">Create New Account?</h2>
-              <P id="Submit-error" class="text-danger"></P>
-              <p class="text-black mb-5">EXPLORE THE WORLD OF KIDDIES!</p>
-             
-              <p class="text-danger">{{#if phoneAll}}Phone Number Already Exist {{/if}}{{#if email}}Email Already Exist{{/if}}</p>
-              
 
-                 
-              <div class="form-outline form-white mb-4">
-                <input type="text" name="name" id="userName" placeholder="user name" class="form-control form-control-lg"  required   onkeyup=" validateName()"/>
-                <p id="Name-error" class="error text-danger"></p>
-                
-              </div>
-        
+<!-- Signup -->
+    <div class="container">
+      <div class="login-form">
+        <form action="/signup" method="post">
+          <h1>Create New Account</h1>
+          <p>
+            Please fill in this form to create an account. or
+            <a href="/login">Login</a>
+          </p>
+          <p class="text-danger">{{#if phoneAll}}Phone Number Already Exist {{/if}}{{#if email}}Email Already Exist{{/if}}</p>
+            <label for="name">Name</label>
+             <input type="text" name="name" id="userName" placeholder="user name" class="form-control form-control-lg"  required   onkeyup=" validateName()"/>
+                <p id="Name-error" class="error text-danger" style="color: red;"></p>
+           <label for="email">Email</label>
+           <input type="email" name="Email" placeholder="Email" id="email" class="form-control form-control-lg" required onkeyup="validateEmail()"/>
+                <p id="Email-error" class="error text-danger" style="color: red;"></p>
 
 
-               <div class="form-outline form-white mb-4">
-                <input type="email" name="email" placeholder="Email" id="email" class="form-control form-control-lg" required onkeyup="validateEmail()"/>
-                  <p id="Email-error" class="error text-danger"></p>
-               </div>
-                 
-                    <label class="labels">Gender</label>
+              <label class="labels">Gender</label>
                     <div class="form-check-inline">
 
-                  <input class="form-check-input mt-1" type="radio" value="Male" name="gender" id="flexRadioDefault1">
+                  <input class="form-check-input " type="radio" value="Male" name="gender" id="flexRadioDefault1">
                   <label class="labels form-check-label " for="flexRadioDefault1">
                    Male
                 </label>
@@ -48,50 +34,32 @@
                  Other
                   </label>
 
-                </div>
+                </div>    
 
-                     <div class="mb-3"><input type="number" class="form-control" placeholder="enter your age" name="age"  value=""></div> 
-                  
-               <div class="form-outline form-white mb-4">
-                <input type="password" name="password" placeholder="Password" id="password" class="form-control form-control-lg" required  onkeyup="validatePassword()"/>
-                  <p id="Password-error" class="error text-danger"></p>
-               </div>
-                
-                   
-               <div class="form-outline form-black mb-4">
-                <input type="password" placeholder="confirm password" id="conformPassword" class="form-control form-control-lg"required  onkeyup="rePassword()"  >
-                  <p id="rePassword-error" class="error text-danger"></p>
-               </div>
+           <label for="psw">Password</label>
+            <input type="password" name="Password" placeholder="Password" id="password" class="form-control form-control-lg" required  onkeyup="validatePassword()"/>
+                  <p id="Password-error" class="error text-danger" style="color: red;"></p>
 
-           
-               <div class="form-outline form-black">
-                <input type="tel" maxlength="10" placeholder="PhoneNumber" name="phoneNumber" id="phoneNumber" class="form-control form-control-lg" required onkeyup="validatePhoneNUmber()"/>
-                  <p id="Phone-error" class="error text-danger"></p>
-               </div>
-               
-             
+          <label for="psw-repeat">Repeat Password</label>
+           <input type="password" placeholder="confirm password" id="conformPassword" class="form-control form-control-lg"required  onkeyup="rePassword()"  >
+                  <p id="rePassword-error" class="error text-danger" style="color: red;"></p>
 
-              <p class="small pb-lg-2"><a class="text-black" href="#!">Forgot password?</a></p>
+          <label for="phoneNumber">Mobile number</label>
+          <input type="tel" maxlength="10" placeholder="PhoneNumber" name="phoneNumber" id="phoneNumber" class="form-control form-control-lg" required onkeyup="validatePhoneNUmber()"/>
+                  <p id="Phone-error" class="error text-danger" style="color: red;"></p>
 
-              <button class="btn btn-outline-dark btn-lg px-5" type="submit" onclick="return validateForm()">signup</button>
+          <p>
+            By creating an account you agree to our
+            <a href="#">Terms & Privacy</a>.
+          </p>
 
-              <div class="d-flex justify-content-center text-center mt-4 pt-1">
-                <a href="#!" class="text-black"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#!" class="text-black"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
-                <a href="#!" class="text-orange"><i class="fab fa-google fa-lg"></i></a>
-              </div>
-                <p class="mt-5">you have an account? <a href="/login" class="text-black fw-bold">Login</a>
-              </p>
-           
-              
-            </div>
-              </form>
+          <div class="buttons">
+            <button type="button" class="cancelbtn">Cancel</button>
+            <button type="submit" class="signupbtn">Sign Up</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
-</section>
 
 
 

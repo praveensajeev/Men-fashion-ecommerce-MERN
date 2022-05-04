@@ -329,7 +329,7 @@ module.exports = {
         resolve(total[0] .total);
 
       }else{
-        console.log("praaaaaaaaaaaaaa");
+        
         resolve()
       }
       
@@ -343,6 +343,7 @@ module.exports = {
         deliveryDetails: {
           name:order.name,
           houseNo:order.house,
+          Date:new Date(),
           mobile: order.phoneNumber,
           address: order.address,
           pincode: order.pincode,
@@ -383,7 +384,7 @@ module.exports = {
       let orders = await db
         .get()
         .collection(collection.ORDER_COLLECTION)
-        .find({ userId: objectId(userId) })
+        .find({ userId: objectId(userId) }).sort({Date:-1})
         .toArray();
       console.log(orders);
       resolve(orders);

@@ -152,7 +152,7 @@ module.exports={
     },
     getAllOrders:()=>{
         return new Promise(async (res,rej)=>{
-            let orders= await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+            let orders= await db.get().collection(collection.ORDER_COLLECTION).find().sort({Date:-1}).toArray()
             console.log(orders);
             res(orders)
         })

@@ -6,13 +6,11 @@ const userHelpers = require("../helpers/user-helpers");
 
 const serviceSsid = "VA8b49d4571307fadf6fad7217082d60f8";
 const AccountSsid = "AC060b9d74db69e59d9ed32346b877fbc9";
-const token = "ee5bdeec32ad633d283c73ded66dca54";
+const token = "20de28dfe6cfaeaddb27d6faba347ca2";
 
-// const serviceSsid = "	VA57b99e042133ed4144f37b3003e009b8";
-// const AccountSsid = "AC8d35f9dcfb5c3192cf04162426e70fa1";
-// const token = "351a705f744d9bda78dd3623b7796eb6";
+
 const client = require("twilio")(AccountSsid, token);
-// const client = require("twilio")(AccountSsid, token);
+
 
 const verifylogin = (req, res, next) => {
   if (req.session.user) {
@@ -200,7 +198,7 @@ router.get("/cart", verifylogin, async (req, res) => {
   
   res.render("user/cart",{products,'user':req.session.user,cartCount,totalValue});
 });
-router.get('/add-to-cart/:id',(req,res)=>{
+router.get('/add-to-cart/:id',verifylogin,(req,res)=>{
   console.log(req.params.id);
   console.log("hi");
   console.log(req.session.user._id);
@@ -450,15 +448,12 @@ res.render('user/orders',{user:req.session.user,orders})
 
 
 // ------------view-orders from order--------
-router.get('/view-order-products/:id',async(req,res)=>{
-  var imgId = req.params.id;
-  // let product = await userHelpers.imageDetails(req.params.id);
-  let products=await userHelpers.getOrderProductDetails(req.params.id)
-  console.log(products);
-   res.render('user/view-order-products',{products,user:req.session.user})
-  // res.render("user/view-image",{product});
+router.get('/view-order-products/:id',verifylogin,async(req,res)=>{
+ 
+  let products= await userHelpers.getOrderProductDetails(req.params.id)
+  let user=req.session.user
+  res.render('user/view-order-products',{products,user})
 })
-
 
 router.get('/arun',async(req,res)=>{
   // let category=req.params.id
