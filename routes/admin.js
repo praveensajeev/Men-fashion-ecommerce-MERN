@@ -53,9 +53,11 @@ router.post("/add-product", (req, res) => {
   productHelper.addproduct(req.body, (id) => {
     let images = req.files.images;
     let image = req.files.image;
+    let image3 = req.files.image3;
+
     if (
       (image.mv("./public/product-images/" + id + ".jpg") &&
-        images.mv("./public/product-images1/" + id + ".jpg"),
+        images.mv("./public/product-images1/" + id + ".jpg")&& image3.mv("./public/product_image3/" + id + ".jpg"),
       (err, done) => {
         if (!err) {
           res.render("admin/add-product", { admin: true });
@@ -67,7 +69,6 @@ router.post("/add-product", (req, res) => {
       res.render("admin/add-product");
   });
 });
-
 router.get("/edit-product/:id", verifylogin, async (req, res) => {
   let product = await productHelper.getAllproductsDetails(req.params.id);
   console.log(product);

@@ -10,9 +10,27 @@ const { response } = require('express');
 const userHepers = require('./user-helpers');
 module.exports={
     addproduct:(product,callback)=>{
-        console.log(product);
-        db.get().collection('product').insertOne(product).then((data)=>{
-            console.log(data);
+        // console.log(product);
+        db.get().collection('product').insertOne(product).then(async (data)=>{
+           
+           let products= await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+           console.log(products);
+    
+
+           for(i=0;i<products.length;i++){
+            let OP =  parseInt( products[i].orginalPrice)
+            let OfP =  parseInt( products[i].offerpercentage)
+       
+
+            var offerPrice= OP-(OP*(OfP/100)).toFixed(0)
+             var ids = products[i]._id
+              
+
+           }
+            //  console.log(offerprice);
+                                  
+            db.get().collection(collection.PRODUCT_COLLECTION).findOneAndUpdate({_id:objectId(ids)},{$set:{"offerPrice":offerPrice}})
+            // console.log(data);
          callback(data.insertedId)
         })
 

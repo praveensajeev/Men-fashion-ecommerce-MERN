@@ -5,7 +5,7 @@
 :root {
   --white: #fff;
   --black: #222;
-  --green: #2C3E66;
+  --green: #d1065b;
   --grey1: #f0f0f0;
   --grey2: #EAE7DC;
 }
@@ -27,7 +27,7 @@ html {
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
-  background-color: var(--white);
+  background-color: #eddada;
   
   color: var(--black);
   font-weight: 400;

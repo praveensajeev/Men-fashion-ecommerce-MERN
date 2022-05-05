@@ -370,11 +370,11 @@ router.get('/category-view/:id',(req,res)=>{
 })
 
 // quantity
-router.post('/change-product-quantity ',(req,res,next)=>{
+router.post('/change-product-quantity',(req,res,next)=>{
   console.log(req.body);
   
   userHelpers.changeProductQuantity(req.body).then(async(response)=>{
-  
+  console.log("change-qty",response);
      response.total=await userHelpers.getTotalAmount(req.body.user)
   
   res.json(response)

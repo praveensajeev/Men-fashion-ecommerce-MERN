@@ -1,24 +1,24 @@
-<section>
+<section style="margin-left: 23rem;">
   <div class="container mt-5">
 
-    <table class="table table-striped" id="productsTable">
+    <table class="table table-striped table-dark" id="productsTable">
       <thead >
         <tr>
-          <th scope="col" style="color: black;">No</th>
-          <th scope="col" style="color: black;">Brand</th>
-          <th scope="col" style="color: black;">Category</th>
-          <th scope="col" style="color: black;">Description</th>
-          <th scope="col" style="color: black;">Original price</th>
-          <th scope="col" style="color: black;">Offer price</th>
-          <th scope="col" style="color: black;">Offer%</th>
-          <th scope="col" style="color: black;">Images</th>
-          <th scope="col" style="color: black;" >Action</th>
+          <th scope="col" >No</th>
+          <th scope="col" >Brand</th>
+          <th scope="col" >Category</th>
+          <th scope="col" >Description</th>
+          <th scope="col" >Original price</th>
+          <th scope="col" >Offer price</th>
+          <th scope="col" >Offer%</th>
+          <th scope="col" >Images</th>
+          <th scope="col" >Action</th>
         </tr>
       </thead>
       <tbody>
         {{#each products}}
           <tr>
-            <th scope="row" style="color: black;">{{inc @index}}</th>
+            <th scope="row" >{{inc @index}}</th>
             <td>
               {{this.brand}}
             </td>
@@ -71,3 +71,7 @@
     $('#productsTable').DataTable();
 } );
 </script>
+
+
+
+
