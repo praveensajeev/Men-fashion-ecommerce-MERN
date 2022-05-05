@@ -169,8 +169,9 @@ router.post("/login", (req, res) => {
       res.render("user/login", { userBlock: true });
     } else {
       if (response.status) {
-        req.session.loggedIn = true;
+        
         req.session.user = response.user;
+        req.session.loggedIn = true;
         console.log(req.session.user._id);
         res.redirect("/");
       } else {
@@ -189,6 +190,7 @@ router.get("/logout", (req, res) => {
 //cart routes
 router.get("/cart", verifylogin, async (req, res) => {
   let products=await userHelpers.getCartProducts(req.session.user._id)
+  console.log(products);
   let totalValue=await userHelpers.getTotalAmount(req.session.user._id)
 
   cartCount=null

@@ -31,7 +31,8 @@
                                 </td>
                                 <td>{{this.deliveryDetails.name}}</td>
                                 <td>{{this.deliveryDetails.address}} <br>{{this.deliveryDetails.pincode}}
-                                    <br>{{this.deliveryDetails.mobile}}</td>
+                                    <br>{{this.deliveryDetails.mobile}}
+                                </td>
                                 <td>{{this.Date}}</td>
                                 <td>{{this.totalAmount}}</td>
                                 {{!-- <a href="/admin/cancelOrder/{{this._id}}" class="btn btn-success"></a> --}}
@@ -40,12 +41,12 @@
                                 {{!-- <td><i class="fa fa-ellipsis-h text-black-50"></i></td> --}}
                                 <td>{{this.paymentMethod}}</td>
                                 <td> <select onchange="deliveryStatus(value,'{{this._id}}')" class="custom-select">
-                                    {{#if this.status}}
+                                        {{#if this.status}}
                                         <option value="{{this.status}}" selected disabled> {{this.status}}</option>
 
-                                      {{else}}  
-                                      <option value="" selected disabled>Delivered</option>
-                                      {{/if}}
+                                        {{else}}
+                                        <option value="" selected disabled>Delivered</option>
+                                        {{/if}}
                                         <option value="Pending">Pending</option>
                                         <option value="Cancelled">Cancel</option>
                                         <option value="Shipped">Ship</option>
@@ -118,23 +119,37 @@
 </style>
 
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function deliveryStatus(value, orderId) {
-        $.ajax({
-            url: '/admin/statusUpdate',
-            method: 'post',
-            data: {
-                status: value,
-                orderId: orderId
-            },
-            success: (response) => {
-                if (response) {
+        swal({
+            text: 'Are you sure want to Change the Order status',
+            icon: "warning",
+            button: true,
+            dangerMode: true,
 
-                    alert("Status Updated")
-                    location.reload()
-                }
-            }
         })
+            .then((name) => {
+                if (name) {
+                    $.ajax({
+                        url: '/admin/statusUpdate',
+                        method: 'post',
+                        data: {
+                            status: value,
+                            orderId: orderId
+                        },
+                        success: (response) => {
 
+
+                            swal("Status Updated", {
+                                icon: "success"
+                            })
+
+                        }
+                    })
+                }
+
+            })
     }
+
 </script>

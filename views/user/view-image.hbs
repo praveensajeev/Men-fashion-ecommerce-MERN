@@ -10,10 +10,10 @@
        <div class="flex" style="display: flex;">
 
          <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top"  alt="...">     
         </div>
          <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images1/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product-images1/{{product._id}}.jpg" class="zoom card-img-top"  alt="...">     
         </div>
          <div class="card mt-3" style="width: 8rem;margin-left:35px">
         <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
@@ -83,7 +83,7 @@
 
 
 
-<section class="  section new-arrival">
+<section class="section new-arrival">
      
       <div class="product-center">
           {{#each relatedproduct}}
@@ -143,14 +143,17 @@
 
 
 <script>
-  $(document).ready(function(){
+   $(document).ready(function(){
 $(".zoom").hover(function(){
     $(".zoom1").attr('src',$(this).attr('src'
     ))
 
 })
-})
+}) 
 </script>
+
+
+
 
 
 

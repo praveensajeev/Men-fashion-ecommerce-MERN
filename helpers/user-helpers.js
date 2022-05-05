@@ -5,6 +5,8 @@ var objectId = require("mongodb").ObjectId;
 var promise = require("promise");
 const Razorpay = require('razorpay');
 
+var swal = require('sweetalert')
+
 var instance = new Razorpay({
   key_id: 'rzp_test_aScLPZGnWnxvJB',
   key_secret: 'lcaGOMaRalCTNEtBsNtQBGVj',

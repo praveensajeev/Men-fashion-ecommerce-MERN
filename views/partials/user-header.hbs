@@ -16,23 +16,23 @@
         <div class="nav-center container d-flex">
         <a href="/" class="logo"><h1>BE ARC</h1></a>
 
-          <ul class="nav-list d-flex" style="color: black;">
+          <ul class="nav-list d-flex">
             <li class="nav-item">
-              <a href="/" class="nav-link">HOME</a>
+              <a  href="/" class="nav-link" style="color: black;font-size:medium">HOME</a>
             </li>
             <li class="nav-item">
-              <a href="/category-view/SHIRTS" class="nav-link">SHIRTS</a>
+              <a href="/category-view/SHIRTS" class="nav-link" style="color: black;font-size:medium">SHIRTS</a>
             </li>
             {{#if user}}
             <li class="nav-item">
-            <a href="/category-view/T-SHIRTS" class="nav-link">ORDERS</a>
+            <a href="/category-view/T-SHIRTS" class="nav-link" style="color: black;font-size:medium">ORDERS</a>
             </li>
             {{/if}}
             <li class="nav-item">
-              <a href="/category-view/T-SHIRTS" class="nav-link">T SHIRTS</a>
+              <a href="/category-view/T-SHIRTS" class="nav-link" style="color: black;font-size:medium">T SHIRTS</a>
             </li>
             <li class="nav-item">
-              <a href="/category-view/ACCESSORIES" class="nav-link">ACCESSORIES</a>
+              <a href="/category-view/ACCESSORIES" class="nav-link" style="color: black;font-size:medium">ACCESSORIES</a>
             </li>
             {{!-- <li class="icons d-flex">
             <a href="login.html" class="icon">
@@ -69,7 +69,8 @@
             </a>
                <a class="icon" href="/myprofile">
            {{#if user}}
-           {{user.name}}
+           <p style="font-size: medium;"> {{user.name}}</p>
+          
            {{else}}
            <i class="bx bx-user"></i>
            {{/if}}

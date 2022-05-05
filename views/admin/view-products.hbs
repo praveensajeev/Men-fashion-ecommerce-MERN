@@ -1,7 +1,7 @@
 <section>
   <div class="container mt-5">
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="productsTable">
       <thead >
         <tr>
           <th scope="col" style="color: black;">No</th>
@@ -64,3 +64,10 @@
   </div>
 
 </section>
+
+
+<script>
+   $(function () {
+    $('#productsTable').DataTable();
+} );
+</script>
