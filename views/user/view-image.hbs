@@ -16,7 +16,7 @@
         <img src="/product-images1/{{product._id}}.jpg" class="zoom card-img-top"  alt="...">     
         </div>
          <div class="card mt-3" style="width: 8rem;margin-left:35px">
-        <img src="/product-images/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
+        <img src="/product_image3/{{product._id}}.jpg" class="zoom card-img-top" alt="...">     
         </div>
 
        </div>
@@ -63,7 +63,7 @@
 
 
         <div class="text-center">
-          <button type="submit"  onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add Cart</a>
+          <button type="submit"  onclick="addToCart('{{product._id}}')" class="btn btn-primary">Add Cart</a>
         </div>
 
       </div>
@@ -94,8 +94,8 @@
             </a>
           </div>
           <div class="product-info">
-            <h3>{{this.Category}}</h3>
-            <a href="/add-to-wishlist/{{this._id}}">{{this.brand}}</a>
+            <h3>{{product.Category}}</h3>
+            <a href="/add-to-wishlist/{{product._id}}">{{this.brand}}</a>
             <h4><span class="text-danger text-decoration-line-through"> ₹{{this.orginalPrice}}</span> ₹{{this.offerPrice}}</h4>
           </div>
           <ul class="icons">

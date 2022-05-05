@@ -51,6 +51,8 @@ router.get("/add-product", verifylogin, (req, res) => {
 });
 router.post("/add-product", (req, res) => {
   productHelper.addproduct(req.body, (id) => {
+
+    console.log("this is body",req.body);
     let images = req.files.images;
     let image = req.files.image;
     let image3 = req.files.image3;
@@ -66,7 +68,7 @@ router.post("/add-product", (req, res) => {
         }
       })
     )
-      res.render("admin/add-product");
+      res.render("admin/add-product",{admin:true});
   });
 });
 router.get("/edit-product/:id", verifylogin, async (req, res) => {

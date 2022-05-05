@@ -20,6 +20,8 @@ module.exports={
            for(i=0;i<products.length;i++){
             let OP =  parseInt( products[i].orginalPrice)
             let OfP =  parseInt( products[i].offerpercentage)
+
+            console.log();
        
 
             var offerPrice= OP-(OP*(OfP/100)).toFixed(0)
