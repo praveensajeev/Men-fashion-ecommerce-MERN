@@ -1,14 +1,39 @@
-<section>
-  <div class="container mt-5">
-    <div class="row">
-      <form action="/admin/add-category" method="post" enctype="multipart/form-data">
-        <div class="col-md-6">
 
-          <input type="text" placeholder="Brand" name="brand" class="form-control">
-          {{!-- <div class="mt-3">
-            <label for="" class="form-label">category:</label>
-            <input type="text" name="category" class="form-control" id="exampleInputPassword1">
-          </div> --}}
+
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<form class="form-horizontal" style="margin-left: 27rem;" action="/admin/add-category" method="post" enctype="multipart/form-data">
+<fieldset style="margin-left: 27rem;">
+
+<!-- Form Name -->
+<legend class="text-center">EDIT CATEGORY</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="product_id">PRODUCT BRAND</label>  
+  <div class="col-md-4">
+  <input id="product_id"  placeholder="Brand" name="brand" class="form-control input-md" required="" type="text">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+
+
+<!-- Text input-->
+
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="product_categorie">PRODUCT CATEGORY</label>
+  <div class="col-md-4">
+
+     
+        
           <select class="form-select mt-3" type="text" name="category" class="form-control"
             aria-label="Default select example">
             <option selected>Category</option>
@@ -16,17 +41,38 @@
             <option value="T-SHIRTS">T-SHIRTS</option>
             <option value="ACCESSORIES">ACCESSORIES</option>
           </select>
-
-
-
-
-          <div class="mt-3">
-            <label for="" class="form-label">image:</label>
-            <input type="file" name="image" class="form-control" id="exampleInputPassword1">
-          </div>
-
-          <button type="submit" class="btn btn-primary mt-3">Submit</button>
-      </form>
-    </div>
+    
   </div>
-</section>
+</div>
+
+
+
+
+<!-- Text input-->
+
+
+
+    
+ <!-- File Button --> 
+<div class="form-group">
+  <label class="col-md-4 control-label" for="filebutton">main_image</label>
+  <div class="col-md-4">
+  
+            <input type="file" name="image" class="form-control" id="exampleInputPassword1">
+  </div>
+</div>
+<!-- File Button --> 
+>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton">Single Button</label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Submit</button>
+  </div>
+  </div>
+
+</fieldset>
+</form>
+
+

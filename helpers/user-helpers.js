@@ -116,7 +116,7 @@ module.exports = {
   },
   addToCart: (proId, userId) => {
     console.log(proId);
-    console.log(userId);
+    console.log(userId)
     let proObj = {
       item: objectId(proId),
       quantity: 1,

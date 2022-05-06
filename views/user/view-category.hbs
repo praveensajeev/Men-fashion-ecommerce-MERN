@@ -1,4 +1,7 @@
- <section class="section new-arrivals">
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
+ 
+ <section class="section new-arrivals" >
 
      <div class="product-center">
           {{#each products}}
@@ -23,4 +26,152 @@
       </div>
 
  </section> 
+
+
+ {{!-- <div class="pagination" >
+   {{!-- <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+   <li class="page-item current-page active"><a class="page-link" href="#">1</a></li>
+   <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+   <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
+   <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
+   <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+   <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
+   
+   <li class="page-item next-page"><a class="page-link" href="#">Next</a></li> --}}
+ </div>
   
+<style>
+
+.pagination{
+  text-align: center;
+  margin: 30px 30px 60px;
+  user-select: none;
+}
+
+
+.pagination li{
+display: inline-block;
+border-radius: 45px;
+margin: 5px;
+box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+}
+
+.pagination li a{
+  color: rgb(81, 10, 247);
+  text-decoration: none;
+  font-size: 1.2rem;
+  line-height: 45px;
+
+}
+
+.previous-page, .next-page{
+
+  background: #0AB1CE;
+  width: 80px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  border-radius: 45px;
+
+}
+
+.previous-page:hover{
+  transform: translate(-5px);
+}
+
+.next-page:hover{
+  transform: translate(5px);   
+}
+
+.current-page .dots{
+  background: #ccc;
+  width:45px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.active{
+
+  background: #0AB1CE;
+
+}
+
+.disable{
+  background: #ccc;
+}
+</style>
+
+
+
+
+<script>
+  function getPageList(totalPage,page,maxLength){
+    function range(start,end){
+      return Array.form(Array(end - start + 1),(_,i)=> i + start);
+    }
+
+    var sideWidth = maxLength<9 ? 1: 2;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >>1
+    var rightWidth = (maxLength - sideWidth * 2 - 3) >>1
+
+
+    if(totalPages <= maxLength){
+      return range(1,totalPages);
+    }
+
+    if(page <= maxLength - sideWidth - 1 -rightWidth){
+
+    return range(1,maxLength - sideWidth - 1).concat(0,range(totalPages - sideWidth + 1, totalPages));
+
+
+    }
+
+
+    if(page >= totalPages - sideWidth - 1 - rightWidth){
+      return range(1,sideWidth).concat(0,range(totalPages - sideWidth - 1 - rightWidth - leftWidth,totalPages))
+    }
+
+
+    return range(1,sideWidth).concat(0,range(page - leftWidth,page + rightWidth),0,range(totalPage - sideWidth + 1, totalPages));
+
+  
+  }
+  $(function(){
+    var numberOfItems = $(".new-arrivals .product-center").length;
+    var limitperPage = 3;
+    var totalPages = Math.ceil(numberOfItems / limitperPage);
+    var paginationSize = 7;
+    var currentPage;
+
+    function showPage(wichPage){
+      if(whichPage < 1 || whichPage > totalPages)return false;
+
+      currentPage = whichPage;
+
+      $(".new-arrivals .product-center").hide().slice((currentPage - 1)*limitperPage,currentPage * limitperPage).show();
+
+      $(".pagination li").slice(1,-1).remove();
+
+      getPageList(totalPages,currentPage,paginationSize).forEach(item => {
+        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+          .toggleClass("active",item === currentPage).append($("<a>").addClass("page-link")
+            .attr({href:"javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+      });
+
+      $(".previous-page").toggleClass("disable",currentPage === 1);
+      $(".next-page").toggleClass("disable",currentPage === totalPages);
+
+      return true;
+    }
+
+    $(".pagination").append(
+      $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+      $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+
+
+    );
+
+    $(".new-arrivals").show();
+
+    showPage(2)
+  })
+</script> --}}
