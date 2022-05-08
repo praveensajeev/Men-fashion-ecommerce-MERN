@@ -7,7 +7,7 @@
   --black: #222;
   --green: #d61d6a;
   --grey1: #f0f0f0;
-  --grey2: #EAE7DC;
+  --grey2: #ffffff;
 }
 
 /* Basic Reset */
@@ -27,7 +27,7 @@ html {
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
-  background-color: #eddada;
+  background-color: #ffffff;
   
   color: var(--black);
   font-weight: 400;

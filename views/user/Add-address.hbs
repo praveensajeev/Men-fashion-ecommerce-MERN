@@ -1,216 +1,200 @@
-<section style="background-color: rgb(255, 255, 255);">
-<div class="container">
-  <form action="/place-order" id="checkout-form">
-<div class="row pt-5">
-  <div class="col-md-8 mb-4">
-    <div class="card mb-4">
-      <div class="card-header py-3 bg-dark">
-        <h5 class="mb-0 text-light">ADD ADDRESS</h5>
-      </div>
-      <div class="card-body bg-light">
-        
-          <!-- 2 column grid layout with text inputs for the first and last names -->
-          <div class="row mb-4">
-            <div class="col">
-              <div class="form-outline">
-                <input type="text" value="{{user._id}}" name="userId" class="form-control" hidden/>
-                <input type="text" id="form7Example1" name="name" class="form-control" required />
-                
-                <label class="form-label" for="form7Example1">Name</label>
-              </div>
+<section style="background-color: antiquewhite; ">
+  <div class="container">
+    <form action="/place-order" id="checkout-form">
+      <div class="row pt-5">
+        <div class="col-md-8 mb-4" style="">
+          <div class="card mb-4">
+            <div class="card-header py-3 bg-dark">
+              <a href="/addaddress" type="button" class="btn btn-light "
+                style="margin-left: 25rem;  ">Address</a>
+
             </div>
-            <div class="col">
-              <div class="form-outline">
-                <input type="text" id="form7Example2" name="phoneNumber" class="form-control" required/>
-                <label class="form-label" for="form7Example2">Phone Number</label>
+            <div class="row" style="background-color: antiquewhite;min-height:80vh">
+
+
+
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+                integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+              <div class="col-md-12  ">
+                <div class="row mt-4">
+                  {{#each Address}}
+                  <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">{{this.Address.name}}</li>
+                      <li class="list-group-item">{{this.Address.house}}</li>
+                      <li class="list-group-item">{{this.Address.state}}</li>
+                      <li class="list-group-item">{{this.Address.phoneNumber}}</li>
+                      <li class="list-group-item">{{this.Address.pincode}}</li>
+                      <li class="list-group-item">{{this.Address.city}}</li>
+
+                    </ul>
+
+                    <div class="form-check form-switch">
+                      {{log this.Address.Useraddress}}
+                      <input class="form-check-input" name="checkoutAddress" type="radio" id="exampleRadios1"
+                        value="{{this.Address.Useraddress}}" checked>
+                      <label class="form-check-label" for="{{this.Address.Useraddress}}">
+                        {{this.Address.home}}
+                      </label>
+
+                    </div>
+                  </div>
+
+                  {{/each}}
+
+                </div>
               </div>
+
             </div>
-          </div>
 
-          <!-- Text input -->
-          <div class="row mb-4">
-            <div class="col">
-          <div class="form-outline mb-4">
-            <input type="text" id="form7Example3" name="state" class="form-control" required />
-            <label class="form-label" for="form7Example3">State</label>
-          </div>
-          </div>
 
-          <!-- Text input -->
-           <div class="col">
-          <div class="form-outline mb-4">
-            <input type="text" id="form7Example4" name="pincode" class="form-control" required/>
-            <label class="form-label" for="form7Example4">Pincode</label>
-          </div>
-           </div>
-           </div>
-
-          <!-- Email input -->
-           <div class="row mb-4">
-            <div class="col">
-          <div class="form-outline mb-4">
-            <input type="text" id="form7Example5" name="city" class="form-control" required />
-            <label class="form-label" for="form7Example5">City</label>
           </div>
         </div>
-          <!-- Number input -->
-          <div class="col">
-          <div class="form-outline mb-4">
-            <input type="number" id="form7Example6" name="house" class="form-control" required />
-            <label class="form-label" for="form7Example6">House No,Building Name</label>
-          </div>
-          </div>
-          </div>
 
-          <!-- Message input -->
-          <div class="form-outline mb-4">
-            <textarea class="form-control" id="form7Example7" name="address" rows="4"></textarea>
-            <label class="form-label" for="form7Example7">Address information</label>
-          </div>
-
-          <!-- Checkbox -->
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-4">
-    <div class="card mb-4">
-      <div class="card-header py-3 bg-dark text-light">
-        <h5 class="mb-0">Amount</h5>
-      </div>
-      <div class="card-body">
-        <ul class="list-group list-group-flush">
-          <li class="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-            Products items:
-
-          </li>
-          <li class=" d-flex justify-content-between align-items-center px-0">
-            Shipping
-            
-          </li>
-           <li class=" d-flex justify-content-between align-items-center px-0">
-            Delivery charge
-            
-          </li>
-          <li class="d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-            <div>
-              <strong>Total amount</strong>
-
-               
-             
-              <strong style="display: flex;">
-                <p class="mb-0">(including GST)</p>
-
-                <p class="mb-3 pl-5" style="margin-left: 70px;"><strong>${{total}}</strong></p>
-              </strong>
+        <div class="col-md-4 mb-4">
+          <div class="card mb-4">
+            <div class="card-header py-3 bg-dark text-light">
+              <h5 class="mb-0">Amount</h5>
             </div>
-            
-          </li>
-        </ul>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                  Products items:
+                 
+                </li>
+                <li class=" d-flex justify-content-between align-items-center px-0">
+                  Shipping
+                  
+                </li>
+                <li class=" d-flex justify-content-between align-items-center px-0">
+                  Delivery charge
+                  
+                </li>
+                <li class="d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                  <div>
+                    <strong>Total amount</strong>
+                    <strong>
+                      <p class="mb-0">(including GST)</p>
+                      <p><span ><strong class="mb-5" >${{total}}</strong></span></p>
+                    </strong>
+                    
+                  </div>
+                  
+                </li>
+              </ul>
 
-     
-      </div>
+
+            </div>
 
 
-         <div class="card-header py-3 bg-dark text-light">
-        <h5 class="mb-0">Payment Method</h5>
+            <div class="card-header py-3 bg-dark text-light">
+              <h5 class="mb-0">Payment Method</h5>
+            </div>
+            <div class="card-body mt-4">
+
+              <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio1" name="payment-method" value="COD"
+                  checked><strong>Cash On Delivery</strong>
+                <label class="form-check-label" for="radio1"></label>
+              </div>
+
+              <div class="form-check mt-4">
+                <input type="radio" class="form-check-input" id="radio1" name="payment-method" value="ONLINE"
+                  checked><strong>Online Pyment</strong>
+                <label class="form-check-label" for="radio1"></label>
+              </div>
+              </ul>
+              <button type="submit" class="btn btn-primary btn-lg btn-block mt-4">
+                PLACE ORDER
+              </button>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <div class="card-body mt-4">
- 
-         <div class="form-check">
-  <input type="radio" class="form-check-input" id="radio1" name="payment-method" value="COD" checked><strong>Cash On Delivery</strong>
-  <label class="form-check-label" for="radio1"></label>
-</div>
-        
-          <div class="form-check mt-4">
-  <input type="radio" class="form-check-input" id="radio1" name="payment-method" value="ONLINE" checked><strong>Online Pyment</strong>
-  <label class="form-check-label" for="radio1"></label>
-</div>
-        </ul>
-        <button type="submit"  class="btn btn-primary btn-lg btn-block mt-4">
-          PLACE ORDER
-        </button>
-      </div>
-     
-    </div>
+    </form>
   </div>
-</div>
- </form>
-</div>
+
+
+
+  {{!-- ===============for curosel============== --}}
+
+
 </section>
 
+
+
+
+
+
+
+
+
+
+
+
 <script>
-  $("#checkout-form").submit((e)=>{
+  $("#checkout-form").submit((e) => {
     e.preventDefault()
     $.ajax({
-      url:'/place-order',
-      method:'post',
-      data:$('#checkout-form').serialize(),
-      success:(response)=>{
+      url: '/place-order',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
         alert(response);
-     
-        if(response.codSuccess){
-          location.href='/order-success'
-        }else{
 
+        if (response.codSuccess) {
+          location.href = '/order-success'
+        } else {
           razorpayPayment(response)
-
         }
       }
     })
   })
-
-  function razorpayPayment(order){
+  function razorpayPayment(order) {
     var options = {
-    "key": "rzp_test_aScLPZGnWnxvJB", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "Men Fashion",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-      
+      "key": "rzp_test_aScLPZGnWnxvJB", // Enter the Key ID generated from the Dashboard
+      "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Men Fashion",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response) {
 
-        verfyPayment(response,order)
-    },
-    "prefill": {
+        verfyPayment(response, order)
+      },
+      "prefill": {
         "name": "Gaurav Kumar",
         "email": "gaurav.kumar@example.com",
         "contact": "9999999999"
-    },
-    "notes": {
+      },
+      "notes": {
         "address": "Razorpay Corporate Office"
-    },
-    "theme": {
+      },
+      "theme": {
         "color": "#3399cc"
-    }
-   };
-
+      }
+    };
     var rzp1 = new Razorpay(options);
     rzp1.open();
-
-   }
-
-   function verfyPayment(payment,order){
-
-      $.ajax({
-        url:'/verify-payment',
-        data:{
-          payment,
-          order
-        },
-        method:'post',
-        success:(response)=>{
-          if(response.status){
-
-            location.href='/order-success'
-
-          }else{
-            alert("payment failed")
-          }
+  }
+  function verfyPayment(payment, order) {
+    $.ajax({
+      url: '/verify-payment',
+      data: {
+        payment,
+        order
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href = '/order-success'
+        } else {
+          alert("payment failed")
         }
-      })
-   }
+      }
+    })
+  }
 </script>

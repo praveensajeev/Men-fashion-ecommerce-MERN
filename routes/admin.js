@@ -191,6 +191,8 @@ router.get('/view-orders',(req,res)=>{
 
 
 
+
+
 router.post('/statusUpdate',(req,res)=>{
   let status=req.body.status
   let orderId=req.body.orderId
@@ -210,6 +212,17 @@ router.get('/orderProductDetails/:id',async(req,res)=>{
   // let adm=req.session.adminLoggedIn
  
   res.render('admin/orderProductDetails',{products,admin:true})
+})
+
+
+router.get('/getChartDates',async(req,res)=>{
+  let getTotalIncome=await productHelpers.getTotalIncome()
+  let weeklyIncome=await productHelpers. getWeeklyTotal()
+  let monthlyIncome=await productHelpers.getMontlyTotal()
+  let yearlyIncome=await productHelpers.getYearlyTotal()
+  console.log("this daily income",getTotalIncome);
+  console.log("this daily income",getTotalIncome);
+  res.json({getTotalIncome,weeklyIncome,monthlyIncome,yearlyIncome})
 })
 
 module.exports = router;

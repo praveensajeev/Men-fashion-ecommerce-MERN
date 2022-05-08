@@ -190,15 +190,20 @@ router.get("/logout", (req, res) => {
 //cart routes
 router.get("/cart", verifylogin, async (req, res) => {
   let products=await userHelpers.getCartProducts(req.session.user._id)
-  console.log(products);
   let totalValue=await userHelpers.getTotalAmount(req.session.user._id)
 
   cartCount=null
   if (req.session.user) {
     var cartCount=await userHelpers.getCarCount(req.session.user._id)
   }
-  
+  if(cartCount){
   res.render("user/cart",{products,'user':req.session.user,cartCount,totalValue});
+
+
+  }else{
+    res.render("user/emptycart",{'user':req.session.user})
+  }
+  
 });
 router.get('/add-to-cart/:id',verifylogin,(req,res)=>{
   console.log(req.params.id);
@@ -390,17 +395,33 @@ router.post('/remove-product-cart',(req,res)=>{
 
 
 //product orders
-
 router.get('/place-order',verifylogin,async(req,res)=>{
   let total=await userHelpers.getTotalAmount(req.session.user._id)
+    let Address= await userHelpers.getAddress(req.session.user._id)
+    
+    console.log(Address,"pravenn sajeev");
   
-  res.render('user/Add-address',{total,user:req.session.user})
+//  res.render('user/add',{Address})
+  
+   res.render('user/Add-address',{total,user:req.session.user,Address})
 })
 router.post('/place-order',async(req,res)=>{
-  let products=await userHelpers.getCartProductList(req.body.userId)
-  let totalPrice=await userHelpers.getTotalAmount(req.body.userId)
+  let userId= req.session.user._id
+  console.log(req.body,"myordersssssssssssssssss");
+  let address= await userHelpers.EditAddress(req.body,userId)
 
-userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
+  let products=await userHelpers.getCartProductList(userId)
+  let totalPrice=await userHelpers.getTotalAmount(userId)
+  console.log(totalPrice,"amountttttt");
+  console.log(address,"amountttttt");
+
+  
+  
+  let orderAddress=address[0].Address
+
+
+
+userHelpers.placeOrder(orderAddress,products,totalPrice,req.body,userId).then((orderId)=>{
   console.log(orderId);
   if(req.body['payment-method']==='COD'){
 
@@ -443,8 +464,11 @@ router.get('/order-success',(req,res)=>{
 
 
 router.get('/orders',verifylogin,async(req,res)=>{
-  console.log(req.session.user?._id);
+  
+  console.log("haiiiiiiiiiiiiiiiiiiiiii",req.session.user?._id);
   let orders=await userHelpers.getUserOrders(req.session.user?._id)
+
+  console.log("orderssssssssss",orders);
 res.render('user/orders',{user:req.session.user,orders})
 })
 
@@ -457,12 +481,23 @@ router.get('/view-order-products/:id',verifylogin,async(req,res)=>{
   res.render('user/view-order-products',{products,user})
 })
 
-router.get('/arun',async(req,res)=>{
-  // let category=req.params.id
-  // userHelpers. categoryView(category).then((products)=>{
-  // console.log(products);
-  res.render("user/single-product")
+router.get('/addaddress',verifylogin,async(req,res)=>{
+
+  res.render("user/New-address")
+  });
+
+
+
+  router.post("/useraddress",verifylogin,(req,res)=>{
+    let userId=req.session.user._id
+    console.log(userId);
+  userHelpers.userAddress(req.body,userId).then((responce)=>{
+    console.log(responce);
+    res.redirect("/place-order")
+  
   })
+  
+  });
   
 // ============================my profile=======================
 router.get("/myprofile",async(req,res)=>{

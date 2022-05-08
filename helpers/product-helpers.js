@@ -228,6 +228,91 @@ module.exports={
                 resolve(true)
             })
         })
-    }   
+    },
+    
+    getTotalIncome: () => {
+      
+      console.log("arunettannnnnnnnnnnnnnnnnnnnnn");
+        return new promise(async (resolve, reject) => {
+          let totalSales = await db
+            .get()
+            .collection(collection.ORDER_COLLECTION)
+            .aggregate([
+              {
+                $match: { status: "Delivered" },
+              },
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: "$totalAmount" },
+                },
+              },
+            ])
+            .toArray();
+            resolve(totalSales)
+          console.log(totalSales);
+        });
+      },
+      getWeeklyTotal:()=>{
+          console.log("praveennnnnn");
+        return new promise(async (resolve, reject) => {
+            let weeklySales = await db
+              .get()
+              .collection(collection.ORDER_COLLECTION)
+              .aggregate([
+                {
+                  $match: { status: "Delivered" },
+                },
+                {
+                    $group:{ _id:{$dateToString:{format: "%Y-%m-%d", date: "$Date"}}, total: { $sum: "$totalAmount" },count:{$sum:1}}
+                }
+                
+              ])
+              .toArray();
+              console.log(weeklySales,"radhaaaa");
+              resolve(weeklySales)
+          
+          });
+    
+      },
+      getMontlyTotal:()=>{
+        return new promise(async (resolve, reject) => {
+            let monthlySales = await db
+              .get()
+              .collection(collection.ORDER_COLLECTION)
+              .aggregate([
+                {
+                  $match: { status: "Delivered" },
+                },
+                {
+                    $group:{ _id:{$dateToString:{format: "%Y-%m", date: "$Date"}}, total: { $sum: "$totalAmount" }}},
+                
+              ])
+              .toArray();
+              resolve(monthlySales)
+            console.log(monthlySales,"Months");
+          });
+    
+      }
+      ,
+      getYearlyTotal:()=>{
+        return new promise(async (resolve, reject) => {
+            let yearlySales = await db
+              .get()
+              .collection(collection.ORDER_COLLECTION)
+              .aggregate([
+                {
+                  $match: { status: "Delivered" },
+                },
+                {
+                    $group:{ _id:{$dateToString:{format: "%Y", date: "$Date"}}, total: { $sum: "$totalAmount" }}},
+                
+              ])
+              .toArray();
+              resolve(yearlySales)
+            console.log(yearlySales,"yearly");
+          });
+    
+      }
     
 }
