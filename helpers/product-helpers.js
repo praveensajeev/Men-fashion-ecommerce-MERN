@@ -232,7 +232,7 @@ module.exports={
     
     getTotalIncome: () => {
       
-      console.log("arunettannnnnnnnnnnnnnnnnnnnnn");
+      
         return new promise(async (resolve, reject) => {
           let totalSales = await db
             .get()

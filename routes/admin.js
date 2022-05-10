@@ -38,8 +38,11 @@ router.get("/admin-logout", verifylogin, (req, res) => {
   res.redirect("/admin");
 });
 
-router.get("/", verifylogin, function (req, res, next) {
-  res.render("admin/admin-home", { home: true });
+router.get("/",verifylogin,async(req, res,)=> {
+
+   let totalIncome = await productHelper.getTotalIncome();
+   console.log(totalIncome,"incomee");
+  res.render("admin/admin-home", { home: true ,totalIncome});
 });
 router.get("/products", verifylogin, (req, res) => {
   productHelpers.getAllproducts().then((products) => {
@@ -216,13 +219,17 @@ router.get('/orderProductDetails/:id',async(req,res)=>{
 
 
 router.get('/getChartDates',async(req,res)=>{
-  let getTotalIncome=await productHelpers.getTotalIncome()
+ 
   let weeklyIncome=await productHelpers. getWeeklyTotal()
   let monthlyIncome=await productHelpers.getMontlyTotal()
   let yearlyIncome=await productHelpers.getYearlyTotal()
-  console.log("this daily income",getTotalIncome);
-  console.log("this daily income",getTotalIncome);
-  res.json({getTotalIncome,weeklyIncome,monthlyIncome,yearlyIncome})
+  
+  console.log("this daily weekly",weeklyIncome);
+  console.log("this daily monthly", monthlyIncome);
+  console.log("this daily yearly",yearlyIncome);
+
+
+  res.json({weeklyIncome,monthlyIncome,yearlyIncome})
 })
 
 module.exports = router;

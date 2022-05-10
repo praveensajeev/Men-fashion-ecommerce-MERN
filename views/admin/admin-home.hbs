@@ -495,7 +495,7 @@ nav .profile-details i{
           </a>
         </li>
         <li>
-          <a href="/admin/orderss">
+          <a href="/admin/view-orders">
             <i class='bx bx-user' ></i>
             <span class="links_name">All orders</span>
           </a>
@@ -534,8 +534,8 @@ nav .profile-details i{
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Sales</div>
-            <div class="number">38,876</div>
+            <div class="box-topic">Total Income</div>
+            <div class="number">{{totalIncome}}</div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
               <span class="text">Up from yesterday</span>
@@ -594,7 +594,7 @@ nav .profile-details i{
             success: async(chartDatas) => {
               console.log(chartDatas)
                 data1 = []
-                chartDatas.weeklyTotal.map((value) => {
+                chartDatas.weeklyIncome.map((value) => {
                     data1.push({ x: value._id, y: value.total})
                 })
 
@@ -657,7 +657,7 @@ nav .profile-details i{
             method: 'get',
             success: (response) => {
                 let data2 = []
-                response.yearlyTotal.map((value) => {
+                response.yearlyIncome.map((value) => {
                     data2.push({ x: value._id, y: value.total })
                 })
                 const ctx = document.getElementById('myChart2').getContext('2d');
@@ -705,7 +705,7 @@ nav .profile-details i{
             method: 'get',
             success: (response) => {
                 let data2 = []
-                response.monthlyTotal.map((value) => {
+                response.monthlyIncome.map((value) => {
                     data2.push({ x: value._id, y: value.total })
                 })
                 const ctx = document.getElementById('myChart3').getContext('2d');
