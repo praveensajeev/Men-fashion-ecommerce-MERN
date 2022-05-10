@@ -313,6 +313,110 @@ module.exports={
             console.log(yearlySales,"yearly");
           });
     
-      }
+      },
+
+
+      addCoupen: (coupen) => {
+        return new promise((resolve, reject) => {
+          db.get()
+            .collection("coupen")
+            .insertOne(coupen)
+            .then((data) => {
+              resolve(data.insertedId);
+            });
+        });
+      },
+      
+      
+
+ //..................................category-offer....................
+ getAllCatOffers: () => {
+    return new Promise((res, rej) => {
+        let categoryOffer = db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find().toArray()
+        res(categoryOffer)
+    })
+},
+addCategoryOffer: (data) => {
+    return new Promise((res, rej) => {
+        data.startDateIso = new Date(data.Starting)
+        data.endDateIso = new Date(data.Expiry)
+        db.get().collection(collection.CATEGORY_OFFER_COLLECTION).insertOne(data).then(async (response) => {
+            res(response)
+        }).catch((err) => {
+            rej(err)
+        })
+
+    })
+},
+startCategoryOffer: (date) => {
+    let catStartDateIso = new Date(date);
+    console.log('this is a category offer.................... ', date);
+    return new Promise(async (res, rej) => {
+        let data = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find({ startDateIso: { $lte: catStartDateIso } }).toArray();
+        console.log("data", data);
+        if (data.length > 0) {
+            await data.map(async (onedata) => {
+                console.log("onedata", onedata.category);
+                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: onedata.category, offer: { $exists: false } }).toArray();
+                console.log("products", products);
+                await products.map(async (product) => {
+                    let ogPrice=product.originalPrice
+                    let actualPrice = product.offerPrice
+                    let newPrice = (((product.originalPrice) * (onedata.catOfferPercentage)) / 100)
+                    newPrice = newPrice.toFixed()
+                    console.log(actualPrice, newPrice, onedata.catOfferPercentage);
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
+                        {
+                            $set: {
+                                originalPrice:ogPrice,
+                                productOfferPrice:actualPrice,
+                                Price: (actualPrice - newPrice),
+                                offer: true,
+                                catOfferPercentage: onedata.catOfferPercentage
+                            }
+                        })
+                })
+            })
+            res();
+        } else {
+            res()
+        }
+
+    })
+
+},
+deleteCatOffer: (id) => {
+    return new Promise(async (res, rej) => {
+        let categoryOffer = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).findOne({ _id: objectId(id) })
+        let catName = categoryOffer.Category
+        let product = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: catName }, { offer: { $exists: true } }).toArray()
+        if (product) {
+            db.get().collection(collection.CATEGORY_OFFER_COLLECTION).deleteOne({ _id: objectId(id) }).then(async () => {
+                await product.map((product) => {
+
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) }, {
+                        $set: {
+                            Price: product.productOfferPrice
+                        },
+                        $unset: {
+                            offer: "",
+                            catOfferPercentage: '',
+                            productOfferPrice:''
+                        }
+                    }).then(() => {
+                        res()
+                    })
+                })
+            })
+        } else {
+            res()
+        }
+
+    })
+
+}     
+
+
+
     
 }

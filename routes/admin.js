@@ -40,8 +40,9 @@ router.get("/admin-logout", verifylogin, (req, res) => {
 
 router.get("/",verifylogin,async(req, res,)=> {
 
-   let totalIncome = await productHelper.getTotalIncome();
-   console.log(totalIncome,"incomee");
+   let totalIn= await productHelper.getTotalIncome();
+   let totalIncome=totalIn[0].total
+   
   res.render("admin/admin-home", { home: true ,totalIncome});
 });
 router.get("/products", verifylogin, (req, res) => {
@@ -230,6 +231,45 @@ router.get('/getChartDates',async(req,res)=>{
 
 
   res.json({weeklyIncome,monthlyIncome,yearlyIncome})
+});
+
+//..........................................coupen.........................................................
+
+router.get("/Coupen",(req,res)=>{
+  res.render("admin/coupen",{coupen,admin:true})
+});
+router.post("/add-Coupen",async(req,res)=>{
+  productHelper.addCoupen(req.body)
+  res.redirect("Coupen")
+
+});
+
+
+//.................category offer......................................
+router.get('/category-offer', verifylogin, async (req, res) => {
+  console.log("called");
+  category = await productHelpers.getAllcategory()
+  let catOffers = await productHelpers.getAllCatOffers();
+  res.render('admin/category-offer', { category, catOffers, admin: true })
+})
+
+
+router.post('/category-offer', verifylogin, (req, res) => {
+  console.log(req.body);
+  productHelpers.addCategoryOffer(req.body).then(() => {
+    res.redirect("/admin/category-offer")
+  })
+})
+
+router.get('/delete-catOffer/:id', verifylogin, (req, res) => {
+  productHelpers.deleteCatOffer(req.params.id).then(() => {
+    res.redirect("/admin/category-offer")
+  })
+})
+
+router.get('/view',(req,res)=>{
+  console.log("heloooooooo");
+  res.redirect('/admin/products')
 })
 
 module.exports = router;

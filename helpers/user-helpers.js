@@ -1106,5 +1106,78 @@ deleteAddress:(userID,addId)=>{
 
 },
 
+//.............................................coupon validate.......................................
+
+
+validateCoupon:(coupon)=>{
+  return new promise(async(resolve,reject)=>{
+    console.log("is here");
+   await db.get().collection(collection.COUPON_COLLECTION).findOne({code:coupon}).then((res)=>{
+    resolve(res)
+      
+   })
+    
+     
+  
+   })
+  
+  
+},addusertoCoupon:(userId,couponCode)=>{
+  console.log("addusertoCoupon");
+  return new promise(async(resolve, reject) => {
+   
+   
+        let users=await db.get().collection(collection.COUPON_COLLECTION).findOne({code:couponCode,usedUsers:{$elemMatch:{user_id:userId}}})
+        
+        
+        if(users){
+          console.log(users,"akillllll");
+         
+          resolve(users)
+          
+        }else{
+          let users={
+            user_id:userId,
+          }
+          db.get()
+        .collection(collection.COUPON_COLLECTION)
+        .updateOne(
+          { code: couponCode },
+          {
+            $push: { usedUsers: users },
+          }
+        )
+        .then((response) => {
+          console.log(response, "usedUsers");
+          resolve(response);
+        });
+      resolve();
+
+        }
+      })
+     
+},
+
+//delete ....................................address....................
+
+deleteAddress: (userID, addId) => {
+  return new promise(async (resolve, reject) => {
+    await db
+      .get()
+      .collection(collection.USER_COLLECTION)
+      .updateOne(
+        { _id: objectId(userID) },
+        {
+          $pull: { Address: { Useraddress: objectId(addId) } },
+        }
+      )
+
+      .then((resp) => {
+        console.log(resp);
+        resolve(resp);
+      });
+  });
+},
+
 
 };

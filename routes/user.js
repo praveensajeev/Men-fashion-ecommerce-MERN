@@ -37,12 +37,14 @@ router.get("/", async function (req, res, next) {
   console.log(user);
   cartCount=null
   if (req.session.user) {
+    let todayDate = new Date().toISOString().slice(0, 10);
     var cartCount=await userHelpers.getCarCount(req.session.user._id)
+    var catOff = await productHelpers.startCategoryOffer(todayDate);
   }
   
   productHelpers.getAllproducts().then((products) => {
     productHelpers.getAllcategory().then((category) => {
-      res.render("user/view-products", { products, user, category ,cartCount});
+      res.render("user/view-products", { products, user, category ,cartCount,catOff});
     });
   });
 });
@@ -190,7 +192,9 @@ router.get("/logout", (req, res) => {
 //cart routes
 router.get("/cart", verifylogin, async (req, res) => {
   let products=await userHelpers.getCartProducts(req.session.user._id)
-  let totalValue=await userHelpers.getTotalAmount(req.session.user._id)
+  let totalV=await userHelpers.getTotalAmount(req.session.user._id)
+  req.session.total = totalV
+  totalValue = req.session.total;
 
   cartCount=null
   if (req.session.user) {
@@ -396,8 +400,15 @@ router.post('/remove-product-cart',(req,res)=>{
 
 //product orders
 router.get('/place-order',verifylogin,async(req,res)=>{
-  let total=await userHelpers.getTotalAmount(req.session.user._id)
+  let total;
+   price=await userHelpers.getTotalAmount(req.session.user._id)
     let Address= await userHelpers.getAddress(req.session.user._id)
+    // req.session.finalAmount=price;
+    if(req.session.totalValue){
+       total= req.session.totalValue;
+    }else{
+ total=price;
+    }
     
     console.log(Address,"pravenn sajeev");
   
@@ -412,6 +423,9 @@ router.post('/place-order',async(req,res)=>{
 
   let products=await userHelpers.getCartProductList(userId)
   let totalPrice=await userHelpers.getTotalAmount(userId)
+  if(req.session.totalValue){
+    totalPrice=parseInt(req.session.totalValue);
+  }
   console.log(totalPrice,"amountttttt");
   console.log(address,"amountttttt");
 
@@ -438,7 +452,6 @@ userHelpers.placeOrder(orderAddress,products,totalPrice,req.body,userId).then((o
   
 
 });
-
 
 router.post('/verify-payment',(req,res)=>{
   console.log(req.body);
@@ -498,6 +511,18 @@ router.get('/addaddress',verifylogin,async(req,res)=>{
   })
   
   });
+
+
+  router.post("/useraddres",verifylogin,(req,res)=>{
+    let userId=req.session.user._id
+    console.log(userId);
+  userHelpers.userAddress(req.body,userId).then((responce)=>{
+    console.log(responce);
+    res.redirect("/myaddress")
+  
+  })
+  
+  }); 
   
 // ============================my profile=======================
 router.get("/myprofile",async(req,res)=>{
@@ -750,8 +775,76 @@ router.get('/cancel-order/:id',verifylogin,(req,res)=>{
   userHelpers.cancelOrder(orderId).then((response)=>{
      res.redirect('/orders')
   })
+});
+
+
+
+router.post('/coupenAdding',verifylogin,async(req,res)=>{
+  let coupon=req.body.coupon;
+  let total= req.session.total
+  console.log(total,"shyammmmmmmmmmmmmmmmmm");
+  console.log(coupon,"akhilasifffffff");
+  
+  let validateCoupon= await  userHelpers.validateCoupon(coupon);
+  console.log("this is a validate coupen",validateCoupon);
+  if(validateCoupon){
+    let userId=req.session.user._id
+    let couponCode = validateCoupon.code;
+    let couponoffer = validateCoupon.offer;
+  
+
+    
+ let validateUser=await userHelpers.addusertoCoupon(userId,couponCode);
+ 
+ if(validateUser){
+  res.json({user:true})
+ }else{
+   console.log("this is a total....",total);
+   console.log("this is a couponoffer....",couponoffer);
+   discount=total-(total*(couponoffer))/100
+   req.session.totalValue=discount
+   console.log("this is couponnnnn discount..",discount);
+  res.json({discount})
+   
+ }
+  }else{
+    res.json({coupon:true})
+  }
+  
+ 
+  
 })
 
+
+//........................................user ADDERSSS...........................
+router.get('/myaddress',verifylogin,async(req,res)=>{
+  let Address=await userHelpers.getAddress(req.session.user._id)
+ 
+  
+  let user=req.session.user
+  
+  if(Address[0]?.Address){
+  res.render("user/show-address",{Address,user})
+
+
+  }
+  else{
+    res.render("user/add-addressuser")
+  }
+
+});
+
+
+
+router.get('/deleteadd/:id',verifylogin,async(req,res)=>{
+  let id = req.params.id;
+  let userId=req.session.user._id
+  console.log(userId,"arunmsudevan",id);
+  userHelpers.deleteAddress(userId,id).then((responce)=>{
+    res.redirect("/myaddress")
+  })
+ 
+})
 
 
 
