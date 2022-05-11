@@ -3,12 +3,21 @@ var router = express.Router();
 const productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 
-const serviceSsid = "VA8b49d4571307fadf6fad7217082d60f8";
-const AccountSsid = "AC060b9d74db69e59d9ed32346b877fbc9";
-const token = "20de28dfe6cfaeaddb27d6faba347ca2";
+const serviceSsid = "VAb49fda30790e3f3893352a435ce76489";
+const AccountSsid = "ACff888844055bc1ae19c33644233f6f2d";
+const token = "ae5eb81b76930c044075c616f468dea7";
+const createReferal = require('referral-code-generator')
+
+const paypal = require('paypal-rest-sdk')
 
 
 const client = require("twilio")(AccountSsid, token);
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AQiCJLhkXxJ0h6HGTZWFCfJxdXTUjBYqyaQDH8ZqC1NNIEn3a5MN4c2IbHVCUpqdZe2vz2G_dVLi48m6',
+  'client_secret': 'EDChw5_w8gj9Tpb2U8oI5uVyTxPJiuHO7SBeQFY_4vI5IFNijB0B24HCsy2Y9xlIv5tlPYybN1v6TyCH'
+});
 
 
 
@@ -37,14 +46,14 @@ router.get("/", async function (req, res, next) {
   console.log(user);
   cartCount=null
   if (req.session.user) {
-    let todayDate = new Date().toISOString().slice(0, 10);
+   
     var cartCount=await userHelpers.getCarCount(req.session.user._id)
-    var catOff = await productHelpers.startCategoryOffer(todayDate);
+    
   }
   
   productHelpers.getAllproducts().then((products) => {
     productHelpers.getAllcategory().then((category) => {
-      res.render("user/view-products", { products, user, category ,cartCount,catOff});
+      res.render("user/view-products", { products, user, category ,cartCount});
     });
   });
 });
@@ -56,76 +65,95 @@ router.get("/login", (req, res) => {
     req.session.loginErr = false;
   }
 });
-router.get("/signup", (req, res) => {
-  res.render("user/signup");
+router.get("/signup",async (req, res) => {
+  let refer = (await req.query.refer) ? req.query.refer : null;
+  res.render("user/signup",{refer});
 });
 
 router.post("/signup", (req, res) => {
-  let email = req.body.email;
-  let phone = req.body.phoneNumber;
+  var email = req.body.email;
+  var phone = req.body.phoneNumber;
+
+  let refer = createReferal.alphaNumeric("uppercase", 2, 3);
+  req.body.refer = refer;
+  if (req.body.referedBy != "") {
+    userHelpers
+      .checkReferal(req.body.referedBy)
+      .then((data) => {
+        req.body.referedBy = data[0]._id;
+        req.body.wallet = 100;
+
+        userHelpers.emailCheck(email, phone).then((resolve) => {
+          if (resolve) {
+            if (resolve.phoneNumber == phone) {
+              res.render("user/signup", { phone: true, phoneAll: "Phone invalid" });
+              phoneAll = false;
+            } else {
+              res.render("user/signup", { email: true,email:"Email already exist" });
+              email = false;
+            }
+          } else {
+            userSignup=req.body;
+            console.log(phone);
+            client.verify
+              .services(serviceSsid)
+              .verifications.create({ to: `+91${phone}`, channel: "sms" })
+              .then((resp) => {
+                console.log(resp);
+                res.render("user/signUpotp", { phone });
+              });
+           
+          
+          }
+        });
+      
+
+
+      })
+
+    }else{
+
+
+      userHelpers.emailCheck(email, phone).then((resolve) => {
+        if (resolve) {
+          if (resolve.phoneNumber == phone) {
+            res.render("user/signup", { phone: true, phoneAll: "Phone invalid" });
+            phoneAll = false;
+          } else {
+            res.render("user/signup", { email: true,email:"Email already exist" });
+            email = false;
+          }
+        } else {
+          userSignup=req.body;
+          console.log(phone);
+          client.verify
+            .services(serviceSsid)
+            .verifications.create({ to: `+91${phone}`, channel: "sms" })
+            .then((resp) => {
+              console.log(resp);
+              res.render("user/signUpotp", { phone });
+            });
+         
+        
+        }
+      });
+
+
+    }
+  
+
+  
+
+  
  
 
 
 
-  // userHelpers.checkPhone(phone).then((number) => {
-  //   // console.log(number);
-  //   // console.log(number.userBlock)
 
-  //   if (number) {
-  //     if (number.userBlock) {
-  //       res.render("user/verify-phone", { userBlock: true });
-  //     } else {
-  //       if (number) {
-  //         let phone = number.phoneNumber;
-  //         console.log(phone);
-  //         client.verify
-  //           .services(serviceSsid)
-  //           .verifications.create({ to: `+91${phone}`, channel: "sms" })
-  //           .then((resp) => {
-  //             console.log(resp);
-  //           });
-  //         res.render("user/verify-otp", { phone });
-  //       } else {
-  //         res.render("user/verify-phone", { number: true });
-  //         number = false;
-  //       }
-  //     }
-  //   } else {
-  //     res.render("user/verify-phone", { number: true });
-  //     number = false;
-  //   }
-  // });
-
-
-  
-  userHelpers.emailCheck(email, phone).then((resolve) => {
-    if (resolve) {
-      if (resolve.phoneNumber == phone) {
-        res.render("user/signup", { phone: true, phoneAll: "Phone invalid" });
-        phoneAll = false;
-      } else {
-        res.render("user/signup", { email: true,email:"Email already exist" });
-        email = false;
-      }
-    } else {
-      userSignup=req.body;
-      console.log(phone);
-      client.verify
-        .services(serviceSsid)
-        .verifications.create({ to: `+91${phone}`, channel: "sms" })
-        .then((resp) => {
-          console.log(resp);
-          res.render("user/signUpotp", { phone });
-        });
-     
-    
-    }
-  });
 });
 
-
 router.get('/signupOtp',(req,res)=>{
-  console.log(req.body+"ffffffffffffff");
+  
   res.header(
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
@@ -145,7 +173,7 @@ router.get('/signupOtp',(req,res)=>{
         if(resp.valid){
           userHelpers.doSignup(userSignup).then((response)=>{
             console.log("haaa",response);
-            if(response.acknowledged){
+            if(response){
                 let valid=true;
                 signupSuccess="You are successfully signed up"
                 res.send(valid)
@@ -157,8 +185,7 @@ router.get('/signupOtp',(req,res)=>{
         }
       })
   
-})
-
+});
 
 
 
@@ -441,14 +468,109 @@ userHelpers.placeOrder(orderAddress,products,totalPrice,req.body,userId).then((o
 
     res.json  ({codSuccess:true})
 
-  }else {
+ 
+  
+  }else if (req.body['payment-method'] === 'ONLINE') {
 
     userHelpers.generateRazorpay(orderId,totalPrice).then((response)=>{
       res.json(response)
 
     })
 
+  }else if (req.body['payment-method'] === "PAYPAL") {
+    console.log("entered to paypal");
+    val = totalPrice / 74;
+    totalPrice = val.toFixed(2);
+    let totals = totalPrice.toString();
+    req.session.total = totals;
+    var create_payment_json = {
+      "intent": "sale",
+      "payer": {
+        "payment_method": "paypal"
+      },
+      "redirect_urls": {
+        "return_url": "http://localhost:3000/order-success",
+        "cancel_url": "http://localhost:3000/cancel"
+      },
+      "transactions": [{
+        "item_list": {
+          "items": [{
+            "name": "item",
+            "sku": "001",
+            "price": totals,
+            "currency": "USD",
+            "quantity": 1
+          }]
+        },
+        "amount": {
+          "currency": "USD",
+          "total": totals
+        },
+        "description": "This is the payment description."
+      }]
+    };
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+        throw error;
+      }
+      else {
+        console.log("Create Payment Response");
+        console.log(payment);
+        for (var i = 0; i < payment.links.length; i++) {
+          console.log("1111")
+          if (payment.links[i].rel === "approval_url") {
+            console.log("2222")
+            let link = payment.links[i].href;
+            link = link.toString()
+            // console.log(paypalAmt)
+            // console.log(typeof paypalAmt)
+            res.json({ paypal: true, url: link })
+            // else{
+            //   console.log("paypal");
+            //   userHelpers.generatePaypal(orderId,totalPrice).then((response)=>{
+
+            //   })
+            // }
+
+          }
+        }
+      }
+    })
   }
+  router.get('/success', (req, res) => {
+    if (req.session.loggedIn) {
+      let paypalAmt = req.session.total
+      paypalAmt = paypalAmt.toString()
+      console.log(req.query)
+      const payerId = req.query.PayerID
+      const paymentId = req.query.paymentId
+      var execute_payment_json = {
+        "payer_id": payerId,
+        "transactions": [{
+          "amount": {
+            "currency": "USD",
+            "total": paypalAmt
+          }
+        }]
+      }
+      paypal.payment.execute(paymentId, execute_payment_json, function (error,
+        payment) {
+        if (error) {
+          console.log(error.response);
+          throw error;
+        } else {
+          console.log("Get Payment Response");
+          console.log(JSON.stringify(payment));
+          userHelpers.changePaymentStatus(req.session.orderId).then(() => {
+            res.render('user/order-success')
+          })
+        }
+      });
+    }
+    else {
+      res.render('user/login')
+    }
+  })
   
 
 });
@@ -491,6 +613,7 @@ router.get('/view-order-products/:id',verifylogin,async(req,res)=>{
  
   let products= await userHelpers.getOrderProductDetails(req.params.id)
   let user=req.session.user
+  console.log("this is products",products);
   res.render('user/view-order-products',{products,user})
 })
 
@@ -526,9 +649,12 @@ router.get('/addaddress',verifylogin,async(req,res)=>{
   
 // ============================my profile=======================
 router.get("/myprofile",async(req,res)=>{
+
+  let refer = req.session.user.refer;
+  let referalLink = "localhost:3000/signup?refer=" + refer;
   let profile=await userHelpers.getMydetals(req.session.user?._id)
   
-  res.render("user/myprofile",{profile})
+  res.render("user/myprofile",{profile,referalLink})
 
 });
 
@@ -548,9 +674,8 @@ router.get("/add-details",verifylogin,async(req,res)=>{
 router.post("/profilepic",verifylogin,async(req,res)=>{
   
   id=await req.session.user._id;
-    
-    
-    let image = req.files.image;
+       
+  let image = req.files.image;
   image.mv("./public/profile-image/" + id + ".jpg")
       
         res.redirect("/myprofile");
@@ -770,12 +895,13 @@ router.post("/profilepic",verifylogin,async(req,res)=>{
 
 //cancel-order ----------------------------------
 
-router.get('/cancel-order/:id',verifylogin,(req,res)=>{
-  let orderId=req.params.id
-  userHelpers.cancelOrder(orderId).then((response)=>{
-     res.redirect('/orders')
+router.get('/cancel-order/:id',async(req,res)=>{
+  orderId=req.params.id
+  // console.log(id,"rohitttt");
+  productHelpers.cancelOrder(orderId).then((responce)=>{
+    res.redirect("/orders")
   })
-});
+})
 
 
 
@@ -839,11 +965,21 @@ router.get('/myaddress',verifylogin,async(req,res)=>{
 router.get('/deleteadd/:id',verifylogin,async(req,res)=>{
   let id = req.params.id;
   let userId=req.session.user._id
-  console.log(userId,"arunmsudevan",id);
+  console.log(userId,"meeeeeee",id);
   userHelpers.deleteAddress(userId,id).then((responce)=>{
     res.redirect("/myaddress")
   })
  
+})
+
+//...................coupon expire....................
+
+
+router.get('/couponTime',verifylogin,async(req,res)=>{
+  console.log("coupon on user.js");
+  await productHelpers.couponExpiry();
+
+
 })
 
 

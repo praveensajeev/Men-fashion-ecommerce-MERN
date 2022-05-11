@@ -88,4 +88,53 @@
 </fieldset>
 </form>
 
+<section style="background-color: rgb(255, 255, 255); min-height:100vh;">
+  <div class="container " style="padding-left: 200px;">
+    
+  <div  style="text-align: center; padding-top:10px; text-decoration: underline;" ><h1>All Coupons</h1></div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr >
+          <th scope="col" style="color:#222;">No</th>
+          <th scope="col"style="color:#222;">Name</th>
+          <th scope="col"style="color:#222;">Code</th>
+          <th scope="col"style="color:#222;">Offer</th>
+          <th scope="col"style="color:#222;">Start-Date</th>
+          <th scope="col"style="color:#222;">End-Date</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {{#each coupons}}
+          <tr>
+            <th scope="row"style="color:#222;">{{inc @index}}</th>
+            <td style="color:#222;">
+              {{this.name}}
+            </td>
+
+            <td style="color:#222;">{{this.code}}
+            </td>
+            <td style="color:#222;">
+              {{this.offer}}
+            </td>
+            <td style="color:#222;">
+              {{this.startDate}}
+            </td>
+
+            <td style="color:#222;">
+              {{this.endDate}}
+            </td>
+            
+           
+            
+          </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
 

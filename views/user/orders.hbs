@@ -62,10 +62,13 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center"style="margin-left: 30px;">
                  <a href="/view-order-products/{{this._id}}" class="btn btn-dark text-light">view product</a>
                    <div class="">
-                     {{#if this.status}}
-                    <a href="/cancel-order/{{this._id}}" class="btn btn-danger" style="padding-left: 10px;margin-left:10px">Cancel Order</a>   
+                     {{#if Delivered}}
+                    <a href="" class="btn btn-danger" style="padding-left: 10px;margin-left:10px">Return Order</a>   
+                     {{else if Cancelled}}
+
+
                      {{else}}
-                     <a href="/cancel-order/{{this._id}}" class="btn btn-success" style="padding-left: 10px;margin-left:10px">Return Order</a>  
+                     <a  onclick="cancelOrder('{{this._id}}')" class="btn btn-success" style="padding-left: 10px;margin-left:10px">Cancel Order</a>  
                      {{/if}}             
                   </div>
                   <div>
@@ -89,7 +92,7 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                         style="width: 65%; border-radius: 16px; background-color:#0ca001;" aria-valuenow="65"
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    {{else}}
+                    {{else if Delivered}}
                       <div class="progress" style="height: 6px; border-radius: 16px;">
                       <div class="progress-bar" role="progressbar"
                         style="width: 100%; border-radius: 16px; background-color:#0ca001;" aria-valuenow="65"
@@ -134,3 +137,37 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
     </div>
   </div>
 </section>
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    function cancelOrder(orderIds) {
+        swal({
+            text: 'Are you sure want to Change the Order status',
+            icon: "warning",
+            button: true,
+            dangerMode: true,
+
+        })
+            .then((name) => {
+                if (name) {
+                    $.ajax({
+                        url: '/cancel-order/'+orderIds,
+                        method: 'get',
+                      
+                        success: (response) => {
+                            location.reload()
+
+
+                            swal("Status Updated", {
+                                icon: "success"
+                            })
+
+                        }
+                    })
+                }
+
+            })
+    }
+
+</script>

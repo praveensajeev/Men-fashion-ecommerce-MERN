@@ -1,156 +1,151 @@
-<section class="container" style="background-color: rgb(255, 255, 255);">
-  <div class="container-fluid pt-5" style="min-height: 100vh;">
-    <div class="row">
-      {{#each products}}
-      <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12 ">
-        <div class="zoom mx-auto" id="img-container">
-
-          <img  class="zoom1" src="/product-images/{{product._id}}.jpg">
-
-        </div>
-       <div class="flex" style="display: flex;">
-
-         <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
-        </div>
-         <div class="card mt-3" style="width: 8rem; margin-left:35px">
-        <img src="/product-images1/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
-        </div>
-         <div class="card mt-3" style="width: 8rem;margin-left:35px">
-        <img src="/product-images/{{this.product._id}}.jpg" class="zoom card-img-top" alt="...">     
-        </div>
-
-       </div>
+<section class=" gradient-custom-2 vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
         
-
-
-      </div>
-      <div class=" co-xxl-6 col-xl-6 col-md-6 col-sm-12">
-
-        <span class="fs-2 ">{{this.product.description}}</span>
-        <p> <span class="text-success fs-3">₹{{this.product.offerPrice}}</span><span
-            class="text-danger text-decoration-line-through fs-5 ps-3">₹{{this.product.orginalPrice}}</span> <span
-            class="fs-3">{{product.offerpercentage}}%off</span></p>
-        <p><span class="fs-5"> Available offers </span><br>
-
-          <i class="bi bi-bookmark-fill pe-1 text-success"></i>Bank Offer10% off on Slice Cards, up to ₹200. On orders
-          of ₹1000 and <a href="#" class="text-decoration-none">aboveT&C</a><br>
-
-          <i class="bi bi-bookmark-fill pe-1 text-success"></i>Bank Offer5% Cashback on Flipkart Axis Bank a <a href="#"
-            class="text-decoration-none">CardT&C</a> <br>
-
-          <i class="bi bi-bookmark-fill pe-1 text-success"></i>Partner OfferBuy this product and get upto ₹500 off on
-          Flipkart Furniture <a href="#" class="text-decoration-none"> Know More</a><br>
-
-          <i class="bi bi-bookmark-fill pe-1 text-success"></i>Partner OfferSign up for Men's card Pay Later and get
-          Card worth ₹100* <a href="#" class="text-decoration-none">Know More</a><br>
-
-
-        <div class="dropdown">
-          Available:
-          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            size
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">small</a></li>
-            <li><a class="dropdown-item" href="#">medium</a></li>
-            <li><a class="dropdown-item" href="#">large</a></li>
-            <li><a class="dropdown-item" href="#">extra large</a></li>
-          </ul>
+      <div class="col-md-10 col-lg-8 col-xl-6">
+        <div class="card card-stepper" style="border-radius: 16px;">
+          <div class="card-header p-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <p class="text-muted mb-2"> Order ID <span class="fw-bold text-body">1222528743</span></p>
+                <p class="text-muted mb-0"> Place On <span class="fw-bold text-body">12,March 2019</span> </p>
+              </div>
+              <div>
+                <h6 class="mb-0"> <a href="#">View Details</a> </h6>
+              </div>
+            </div>
+          </div>
+         
+               {{#each products}}
+          <div class="card-body p-4">
+               
+            <div class="d-flex flex-row mb-4 pb-2">
+              <div class="flex-fill">
+                <h5 class="bold">{{product.Brand}}</h5>
+                <p class="text-muted"> Qt: {{this.quantity}}</p>
+                <h4 class="mb-3"> ${{this.product.Price}} <span class="small text-muted">  </span></h4>
+                {{!-- <p class="text-muted">Tracking Status on: <span class="text-body">11:30pm, Today</span></p> --}}
+              </div>
+              <div>
+                <img class="align-self-center img-fluid"
+                  src="/product-images/{{this.product._id}}.jpg" width="250">
+              </div>
+            </div>
+              {{/each}}
+           
+            {{!-- <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+              <li class="step0 active" id="step1"><span
+                  style="margin-left: 22px; margin-top: 12px;">PLACED</span></li>
+              <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
+              <li class="step0 text-muted text-end" id="step3"><span
+                  style="margin-right: 22px;">DELIVERED</span></li>
+            </ul> --}}
+          </div>
+          {{!-- <div class="card-footer p-4">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-normal mb-0"><a href="#!">Track</a></h5>
+              <div class="border-start h-100"></div>
+              <h5 class="fw-normal mb-0"><a href="#!">Cancel</a></h5>
+              <div class="border-start h-100"></div>
+              <h5 class="fw-normal mb-0"><a href="#!">Pre-pay</a></h5>
+              <div class="border-start h-100"></div>
+              <h5 class="fw-normal mb-0"><a href="#!" class="text-muted"><i class="fas fa-ellipsis-v"></i></a>
+              </h5>
+            </div>
+          </div>
         </div>
-        </span>
-        </p>
-
-
-        <div class="text-center">
-          <a type="submit"  onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add Cart</a>
-        </div>
-
       </div>
-
-      {{/each}}
-
+       --}}
     </div>
-
   </div>
 </section>
-
-
-
-
-
-
-<script>
-        function addToCart(proId){
-            $.ajax({
-                url:'/add-to-cart/'+proId,
-                method:'get',
-                success:(response)=>{
-                    if(response.status){
-                        let count=$('#cartCount').html()
-                        count=parseInt(count)+1
-                        $("#cartCount").html(count)
-                    }
-                    
-                }
-            })
-        }
-    </script>
-
-
-
-
-<script>
-  $(document).ready(function(){
-$(".zoom").hover(function(){
-    $(".zoom1").attr('src',$(this).attr('src'
-    ))
-
-})
-})
-</script>
-
-
-
-
-
-
-
-<script>
-
-
-
-
-  var options = {
-    width: 400,
-    height: 500,
-    zoomWidth: 400,
-    offset: { vertical: 0, horizontal: 10 },
-    scale: .6,
-
-  }
-  new ImageZoom(document.getElementById("img-container"), options)
-
-
-  function change(event) {
-    document.getElementById('img-container') = URL.createObjectURL(event.target.files[0])
-  }
-  function viewImage1(event) {
-    document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
-  }
-
-
-</script>
-
-
-
 <style>
-  #img-container{
-    z-index: 2;
-  }
+    .gradient-custom-2 {
+/* fallback for old browsers */
+background: #ffffff;
 
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgb(246, 143, 239), rgb(239, 162, 162));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgb(253, 128, 242), rgb(255, 255, 255))
+}
+
+#progressbar-1 {
+color: #455A64;
+}
+
+#progressbar-1 li {
+list-style-type: none;
+font-size: 13px;
+width: 33.33%;
+float: left;
+position: relative;
+}
+
+#progressbar-1 #step1:before {
+content: "1";
+color: #fff;
+width: 29px;
+margin-left: 22px;
+padding-left: 11px;
+}
+
+#progressbar-1 #step2:before {
+content: "2";
+color: #fff;
+width: 29px;
+}
+
+#progressbar-1 #step3:before {
+content: "3";
+color: #fff;
+width: 29px;
+margin-right: 22px;
+text-align: center;
+}
+
+#progressbar-1 li:before {
+line-height: 29px;
+display: block;
+font-size: 12px;
+background: #455A64;
+border-radius: 50%;
+margin: auto;
+}
+
+#progressbar-1 li:after {
+content: '';
+width: 121%;
+height: 2px;
+background: #455A64;
+position: absolute;
+left: 0%;
+right: 0%;
+top: 15px;
+z-index: -1;
+}
+
+#progressbar-1 li:nth-child(2):after {
+left: 50%
+}
+
+#progressbar-1 li:nth-child(1):after {
+left: 25%;
+width: 121%
+}
+
+#progressbar-1 li:nth-child(3):after {
+left: 25%;
+width: 50%;
+}
+
+#progressbar-1 li.active:before,
+#progressbar-1 li.active:after {
+background: #1266f1;
+}
+
+.card-stepper {
+z-index: 0
+}
 </style>
-
-
-

@@ -19,9 +19,11 @@
     "mongodb": "^4.5.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.15",
+    "paypal-rest-sdk": "^1.8.1",
     "promis": "^1.1.4",
     "promise": "^8.1.0",
     "razorpay": "^2.8.1",
+    "referral-code-generator": "^1.0.8",
     "sweetalert": "^2.1.2",
     "twilio": "^3.76.1"
   }

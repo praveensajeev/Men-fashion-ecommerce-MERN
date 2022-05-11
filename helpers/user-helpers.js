@@ -14,26 +14,34 @@ var instance = new Razorpay({
 
 module.exports = {
   doSignup: (userData) => {
-    console.log(userData.phoneNumber);
-    return new promise(async (resolve, request) => {
-      userData.password = await bcrypt.hash(userData.password, 10);
+  
+    return new Promise(async (resolve, request) => {
+      console.log("thisis userdata....",userData);
+      userData.password  = await bcrypt.hash(userData.Password,10);
       db.get()
         .collection(collection.USER_COLLECTION)
         .insertOne(userData)
         .then((data) => {
           resolve(data);
         });
+        if(userData.referedBy!=''){
+          console.log("refer",userData.referedBy);
+          db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userData.referedBy)},{$inc:{wallet:100}})
+      }
     });
   },
   doLogin: (userData) => {
-    console.log(userData);
+    console.log("this is user Data......",userData);
     return new promise(async (resolve, reject) => {
+
       let loginStatus = false;
       let response = {};
       let user = await db
+      
         .get()
         .collection(collection.USER_COLLECTION)
-        .findOne({ email: userData.email });
+        .findOne({ Email: userData.email });
+        console.log("this is user",user);
 
       if (!user?.userBlock) {
         if (user) {
@@ -1178,6 +1186,21 @@ deleteAddress: (userID, addId) => {
       });
   });
 },
+
+
+//...................................checkreferal...........................
+
+checkReferal: (referal) => {
+  return new Promise(async (res, rej) => {
+    let refer = await db.get().collection(collection.USER_COLLECTION).find({ refer: referal }).toArray();
+    if(refer){
+        res(refer)
+    }else{
+        res(err)
+    }
+  });
+},
+
 
 
 };

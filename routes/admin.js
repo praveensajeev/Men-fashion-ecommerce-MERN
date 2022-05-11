@@ -1,5 +1,6 @@
 
 var express = require("express");
+const async = require("hbs/lib/async");
 const productHelpers = require("../helpers/product-helpers");
 var router = express.Router();
 var productHelper = require("../helpers/product-helpers");
@@ -41,9 +42,11 @@ router.get("/admin-logout", verifylogin, (req, res) => {
 router.get("/",verifylogin,async(req, res,)=> {
 
    let totalIn= await productHelper.getTotalIncome();
-   let totalIncome=totalIn[0].total
+   let users = await productHelper.getAlluser();
+   let orders = await productHelper.getAllorder();
+   let totalIncome=totalIn[0]?.total
    
-  res.render("admin/admin-home", { home: true ,totalIncome});
+  res.render("admin/admin-home", { home: true ,totalIncome,users,orders});
 });
 router.get("/products", verifylogin, (req, res) => {
   productHelpers.getAllproducts().then((products) => {
@@ -235,8 +238,9 @@ router.get('/getChartDates',async(req,res)=>{
 
 //..........................................coupen.........................................................
 
-router.get("/Coupen",(req,res)=>{
-  res.render("admin/coupen",{coupen,admin:true})
+router.get("/Coupen",async(req,res)=>{
+  coupons = await productHelper.couponsfind()
+  res.render("admin/coupen",{coupons,admin:true})
 });
 router.post("/add-Coupen",async(req,res)=>{
   productHelper.addCoupen(req.body)
@@ -246,30 +250,35 @@ router.post("/add-Coupen",async(req,res)=>{
 
 
 //.................category offer......................................
-router.get('/category-offer', verifylogin, async (req, res) => {
-  console.log("called");
-  category = await productHelpers.getAllcategory()
-  let catOffers = await productHelpers.getAllCatOffers();
-  res.render('admin/category-offer', { category, catOffers, admin: true })
-})
+// router.get('/category-offer', verifylogin, async (req, res) => {
+//   console.log("called");
+//   category = await productHelpers.getAllcategory()
+//   let catOffers = await productHelpers.getAllCatOffers();
+//   res.render('admin/category-offer', { category, catOffers, admin: true })
+// })
 
 
-router.post('/category-offer', verifylogin, (req, res) => {
-  console.log(req.body);
-  productHelpers.addCategoryOffer(req.body).then(() => {
-    res.redirect("/admin/category-offer")
-  })
-})
+// router.post('/category-offer', verifylogin, (req, res) => {
+//   console.log(req.body);
+//   productHelpers.addCategoryOffer(req.body).then(() => {
+//     res.redirect("/admin/category-offer")
+//   })
+// })
 
-router.get('/delete-catOffer/:id', verifylogin, (req, res) => {
-  productHelpers.deleteCatOffer(req.params.id).then(() => {
-    res.redirect("/admin/category-offer")
-  })
-})
+// router.get('/delete-catOffer/:id', verifylogin, (req, res) => {
+//   productHelpers.deleteCatOffer(req.params.id).then(() => {
+//     res.redirect("/admin/category-offer")
+//   })
+// })
 
 router.get('/view',(req,res)=>{
   console.log("heloooooooo");
   res.redirect('/admin/products')
-})
+});
+
+
+//....................coupon showing.................
+
+
 
 module.exports = router;

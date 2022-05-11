@@ -103,7 +103,7 @@
                                 <p class="mb-0">Email</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{profile.email}} <button type="button" style="border: 0;"
+                                <p class="text-muted mb-0">{{profile.Email}} <button type="button" style="border: 0;"
                                         class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#myModal2"></button>
                                 <div class="modal" id="myModal2">
                                     <div class="modal-dialog">
@@ -222,6 +222,19 @@
                                 <p class="text-muted mb-0">{{profile.age}}</p>
                             </div>
                         </div>
+                        <hr>
+                            <div class="row">
+                    <div class="col-sm-12">
+                      <p>Referal link</p> <a href="">{{referalLink}}</a>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>My Wallet : ₹{{profile.wallet}}</p> 
+                    </div>
+                  </div>
                     </div>
                 </div>
 
@@ -231,6 +244,9 @@
             <a href="/myaddress" class="btn btn-primary">show Address</a>
              <a href="/orders" class="btn btn-primary">show Orders</a>
         </div>
+
+        <hr>
+              
 
 
        

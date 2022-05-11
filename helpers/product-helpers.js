@@ -142,6 +142,15 @@ module.exports={
             resolve(users)
         })
     },
+    getAlluser:()=>{
+        return new Promise(async(resolve,reject)=>{
+
+            let userCount = await db.get().collection(collection.USER_COLLECTION).find().count()
+
+            resolve(userCount)
+
+        })
+    },
     blockUsers:(id)=>{
         console.log(id);
         return new promise((resolve,reject)=>{
@@ -177,6 +186,18 @@ module.exports={
             res(orders)
         })
     },
+    getAllorder:()=>{
+
+        return new Promise(async(resolve,reject)=>{
+
+            let orderCount= await db.get().collection(collection.ORDER_COLLECTION).find().count()
+
+            resolve(orderCount)
+
+        })
+
+    },
+
     getOrderProductDetails:(orderId)=>{
         return new Promise(async(resolve,reject)=>{
             let orderItems= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -214,21 +235,60 @@ module.exports={
     },
 
 
-    statusUpdate:(status,orderId)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
-                $set:{
-                  status:status,
-
-                  
-                 
-                
-                }
-            }).then((response)=>{
-                resolve(true)
-            })
-        })
-    },
+    statusUpdate: (status, orderId) => {
+        return new Promise((resolve, reject) => {
+          console.log(status,"statuss");
+    
+          if(status==="Delivered"){
+            db.get()
+            .collection(collection.ORDER_COLLECTION)
+            .updateOne(
+              { _id: objectId(orderId) },
+              {
+                $set: {
+                  status: status,
+                  Delivered:true,
+                  Cancelled:false
+                },
+              }
+            )
+            .then((response) => {
+              resolve(true);
+            });
+    
+          } else if(status==="Cancelled"){
+            db.get()
+            .collection(collection.ORDER_COLLECTION)
+            .updateOne(
+              { _id: objectId(orderId) },
+              {
+                $set: {
+                  status: status,
+                  Delivered:false,
+                  Cancelled:true,
+                },
+              }
+            )
+            .then((response) => {
+              resolve(true);
+            });
+    
+          }else{
+          db.get()
+            .collection(collection.ORDER_COLLECTION)
+            .updateOne(
+              { _id: objectId(orderId) },
+              {
+                $set: {
+                  status: status,
+                },
+              }
+            )
+            .then((response) => {
+              resolve(true);
+            });}
+        });
+      },
     
     getTotalIncome: () => {
       
@@ -330,91 +390,153 @@ module.exports={
       
 
  //..................................category-offer....................
- getAllCatOffers: () => {
-    return new Promise((res, rej) => {
-        let categoryOffer = db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find().toArray()
-        res(categoryOffer)
-    })
-},
-addCategoryOffer: (data) => {
-    return new Promise((res, rej) => {
-        data.startDateIso = new Date(data.Starting)
-        data.endDateIso = new Date(data.Expiry)
-        db.get().collection(collection.CATEGORY_OFFER_COLLECTION).insertOne(data).then(async (response) => {
-            res(response)
-        }).catch((err) => {
-            rej(err)
-        })
+//  getAllCatOffers: () => {
+//     return new Promise((res, rej) => {
+//         let categoryOffer = db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find().toArray()
+//         res(categoryOffer)
+//     })
+// },
+// addCategoryOffer: (data) => {
+//     return new Promise((res, rej) => {
+//         data.startDateIso = new Date(data.Starting)
+//         data.endDateIso = new Date(data.Expiry)
+//         db.get().collection(collection.CATEGORY_OFFER_COLLECTION).insertOne(data).then(async (response) => {
+//             res(response)
+//         }).catch((err) => {
+//             rej(err)
+//         })
+
+//     })
+// },
+// startCategoryOffer: (date) => {
+//     let catStartDateIso = new Date(date);
+//     console.log('this is a category offer.................... ', date);
+//     return new Promise(async (res, rej) => {
+//         let data = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find({ startDateIso: { $lte: catStartDateIso } }).toArray();
+//         console.log("data", data);
+//         if (data.length > 0) {
+//             await data.map(async (onedata) => {
+//                 console.log("onedata", onedata.category);
+//                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: onedata.category, offer: { $exists: false } }).toArray();
+//                 console.log("products", products);
+//                 await products.map(async (product) => {
+//                     let ogPrice=product.originalPrice
+//                     let actualPrice = product.offerPrice
+//                     let newPrice = (((product.originalPrice) * (onedata.catOfferPercentage)) / 100)
+//                     newPrice = newPrice.toFixed()
+//                     console.log(actualPrice, newPrice, onedata.catOfferPercentage);
+//                     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
+//                         {
+//                             $set: {
+//                                 originalPrice:ogPrice,
+//                                 productOfferPrice:actualPrice,
+//                                 Price: (actualPrice - newPrice),
+//                                 offer: true,
+//                                 catOfferPercentage: onedata.catOfferPercentage
+//                             }
+//                         })
+//                 })
+//             })
+//             res();
+//         } else {
+//             res()
+//         }
+
+//     })
+
+// },
+// deleteCatOffer: (id) => {
+//     return new Promise(async (res, rej) => {
+//         let categoryOffer = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).findOne({ _id: objectId(id) })
+//         let catName = categoryOffer.Category
+//         let product = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: catName }, { offer: { $exists: true } }).toArray()
+//         if (product) {
+//             db.get().collection(collection.CATEGORY_OFFER_COLLECTION).deleteOne({ _id: objectId(id) }).then(async () => {
+//                 await product.map((product) => {
+
+//                     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) }, {
+//                         $set: {
+//                             Price: product.productOfferPrice
+//                         },
+//                         $unset: {
+//                             offer: "",
+//                             catOfferPercentage: '',
+//                             productOfferPrice:''
+//                         }
+//                     }).then(() => {
+//                         res()
+//                     })
+//                 })
+//             })
+//         } else {
+//             res()
+//         }
+
+//     })
+
+// },
+
+
+//.....................................Cancel-order.......................
+
+cancelOrder: (orderId) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.ORDER_COLLECTION)
+        .updateOne(
+          { _id: objectId(orderId) },
+          {
+            $set: {
+              status: "Cancelled",
+              Delivered:false,
+              Cancelled:true,
+            },
+          }
+        )
+        .then((response) => {
+          resolve(true);
+        });
+    });
+  },
+
+
+
+  
+
+//.........................coupon offer ...................................
+
+
+couponsfind:()=>{
+    return new promise (async(resolve,reject)=>{
+      let coupons= await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+      resolve(coupons)
 
     })
-},
-startCategoryOffer: (date) => {
-    let catStartDateIso = new Date(date);
-    console.log('this is a category offer.................... ', date);
-    return new Promise(async (res, rej) => {
-        let data = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).find({ startDateIso: { $lte: catStartDateIso } }).toArray();
-        console.log("data", data);
-        if (data.length > 0) {
-            await data.map(async (onedata) => {
-                console.log("onedata", onedata.category);
-                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: onedata.category, offer: { $exists: false } }).toArray();
-                console.log("products", products);
-                await products.map(async (product) => {
-                    let ogPrice=product.originalPrice
-                    let actualPrice = product.offerPrice
-                    let newPrice = (((product.originalPrice) * (onedata.catOfferPercentage)) / 100)
-                    newPrice = newPrice.toFixed()
-                    console.log(actualPrice, newPrice, onedata.catOfferPercentage);
-                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
-                        {
-                            $set: {
-                                originalPrice:ogPrice,
-                                productOfferPrice:actualPrice,
-                                Price: (actualPrice - newPrice),
-                                offer: true,
-                                catOfferPercentage: onedata.catOfferPercentage
-                            }
-                        })
-                })
-            })
-            res();
-        } else {
-            res()
-        }
+    
+  },
 
-    })
 
-},
-deleteCatOffer: (id) => {
-    return new Promise(async (res, rej) => {
-        let categoryOffer = await db.get().collection(collection.CATEGORY_OFFER_COLLECTION).findOne({ _id: objectId(id) })
-        let catName = categoryOffer.Category
-        let product = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: catName }, { offer: { $exists: true } }).toArray()
-        if (product) {
-            db.get().collection(collection.CATEGORY_OFFER_COLLECTION).deleteOne({ _id: objectId(id) }).then(async () => {
-                await product.map((product) => {
 
-                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) }, {
-                        $set: {
-                            Price: product.productOfferPrice
-                        },
-                        $unset: {
-                            offer: "",
-                            catOfferPercentage: '',
-                            productOfferPrice:''
-                        }
-                    }).then(() => {
-                        res()
-                    })
-                })
-            })
-        } else {
-            res()
-        }
+//...............................coupon expiry.................
 
-    })
 
-}     
+
+couponExpiry:()=>{
+    console.log("coupon is here");
+return new promise (async(resolve,reject)=>{
+  
+  var dateObj = new Date().toISOString().split('T')[0];
+// 
+  console.log(dateObj,"hiarunms");
+  
+ let coupon=await db.get().collection(collection.COUPON_COLLECTION).remove({endDate:dateObj})
+ 
+})
+
+  },
+ 
+
+  
 
 
 
